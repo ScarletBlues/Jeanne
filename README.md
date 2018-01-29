@@ -7,13 +7,13 @@
 [![license](https://img.shields.io/github/license/KurozeroPB/Jeanne.svg?style=flat-square)](https://choosealicense.com/licenses/gpl-3.0)
 
 # Jeanne
-This code is the rewrite of Jeanne d'Arc, it is not completed yet and many things are wrong.
-Note that this code is currently not running on the actualy bot yet because of that!
+This code is the rewrite of Jeanne d'Arc, it is not completed yet and many things are wrong.<br/>
+Note that this code is currently not running on the actualy bot yet because of that!<br/>
 I expect to finish the rewrite by the end of next week which is February 6th
-
-Jeanne is created with Eris a NodeJS library https://github.com/abalabahaha/eris
-Jeanne has her own website at https://jeannedarc.xyz
-Join her support guild with https://discord.gg/Vf4ne5b
+<br/>
+Jeanne is created with Eris a NodeJS library https://github.com/abalabahaha/eris<br/>
+Jeanne has her own website at https://jeannedarc.xyz<br/>
+Join her support guild with https://discord.gg/Vf4ne5b<br/>
 You can invite the bot to your server with https://jeannedarc.xyz/invite
 
 Open-Source
