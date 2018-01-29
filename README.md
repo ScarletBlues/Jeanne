@@ -7,15 +7,12 @@
 [![license](https://img.shields.io/github/license/KurozeroPB/Jeanne.svg?style=flat-square)](https://choosealicense.com/licenses/gpl-3.0)
 
 # Jeanne
-Jeanne is a bot created for the discord app https://discordapp.com
+This code is the rewrite of Jeanne d'Arc, it is not completed yet and many things are wrong.
 
-Jeanne is created in Eris a NodeJS library https://github.com/abalabahaha/eris
-
+Jeanne is created with Eris a NodeJS library https://github.com/abalabahaha/eris
 Jeanne has her own website at https://jeannedarc.xyz
-
 Join her support guild with https://discord.gg/Vf4ne5b
-
-You can invite the bot to your server with https://invite.jeannedarc.xyz
+You can invite the bot to your server with https://jeannedarc.xyz/invite
 
 Open-Source
 -
@@ -25,4 +22,4 @@ Questions?
 -
 Join the Jeanne server:
 
-[![Discord](https://discordapp.com/api/guilds/240059867744698368/embed.png?style=banner3)](https://discord.gg/Vf4ne5b)
+[![Discord](https://discordapp.com/api/guilds/240059867744698368/embed.png?style=banner2)](https://discord.gg/Vf4ne5b)
