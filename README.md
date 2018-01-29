@@ -1,10 +1,10 @@
 [![Discord Bots](https://discordbots.org/api/widget/status/237578660708745216.svg?noavatar=true)](https://discordbots.org/bot/237578660708745216)
 [![Discord](https://discordapp.com/api/guilds/240059867744698368/embed.png)](https://discord.gg/Vf4ne5b)
 
-[![dependencies](https://david-dm.org/KurozeroPB/Jeanne/status.svg?style=flat-square)](https://david-dm.org/KurozeroPB/Jeanne)
-[![devDependencies](https://david-dm.org/KurozeroPB/Jeanne/dev-status.svg?style=flat-square)](https://david-dm.org/KurozeroPB/Jeanne?type=dev)
-[![npm](https://img.shields.io/github/release/KurozeroPB/Jeanne.svg?style=flat-square)](https://github.com/KurozeroPB/Jeanne/releases)
-[![license](https://img.shields.io/github/license/KurozeroPB/Jeanne.svg?style=flat-square)](https://choosealicense.com/licenses/gpl-3.0)
+[![dependencies](https://david-dm.org/Chaldea-devs/Jeanne/status.svg?style=flat-square)](https://david-dm.org/KurozeroPB/Jeanne)
+[![devDependencies](https://david-dm.org/Chaldea-devs/Jeanne/dev-status.svg?style=flat-square)](https://david-dm.org/KurozeroPB/Jeanne?type=dev)
+[![npm](https://img.shields.io/github/release/Chaldea-devs/Jeanne.svg?style=flat-square)](https://github.com/KurozeroPB/Jeanne/releases)
+[![license](https://img.shields.io/github/license/Chaldea-devs/Jeanne.svg?style=flat-square)](https://choosealicense.com/licenses/gpl-3.0)
 
 # Jeanne
 This code is the rewrite of Jeanne d'Arc, it is not completed yet and many things are wrong.<br/>
