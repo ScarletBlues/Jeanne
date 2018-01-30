@@ -10,11 +10,8 @@ class Pin extends Command {
         });
     }
 
-    async handle({msg}) {
-        let args = msg.content.split(' ');
-        args.shift();
-        args = args.join('');
-        const idRegex = /^\d{17,18}$/.test(args);
+    async handle({msg, rawArgs}, responder) {
+        const idRegex = /^\d{17,18}$/.test(rawArgs[0]);
         if (idRegex === false) return msg.channel.createMessage('\\❌ Invalid message id.');
         msg.channel.pinMessage(args);
     }

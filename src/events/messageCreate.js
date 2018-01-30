@@ -25,16 +25,16 @@ module.exports = {
                         let userData = results[0];
                         let oldlevel = userData.level;
                         userData.points++;
-                        // noinspection JSCheckFunctionSignatures
                         let curLevel = Math.floor(0.1 * Math.sqrt(userData.points));
                         if (curLevel > userData.level) {
                             conn.query('SELECT * FROM guildSettings WHERE guildID=?', [msg.channel.guild.id], (error, results) => {
                                 if (!results[0]) return;
                                 if (results[0].lvlupMsgEnabled === 0) return;
-                                let levelup = results[0].lvlupMsg.replace(/{{MENTION}}/g, msg.author.mention);
-                                levelup = levelup.replace(/{{NAME}}/g, msg.author.username);
-                                levelup = levelup.replace(/{{NEWLEVEL}}/g, curLevel);
-                                levelup = levelup.replace(/{{OLDLEVEL}}/g, oldlevel);
+                                let levelup = results[0].lvlupMsg
+                                    .replace(/{{MENTION}}/g, msg.author.mention)
+                                    .replace(/{{NAME}}/g, msg.author.username)
+                                    .replace(/{{NEWLEVEL}}/g, curLevel)
+                                    .replace(/{{OLDLEVEL}}/g, oldlevel);
                                 msg.channel.createMessage(levelup);
                             });
                             userData.level = curLevel;

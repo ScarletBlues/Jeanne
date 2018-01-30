@@ -30,6 +30,7 @@ function welcome(suffix, msg, conn, results, bot) {
                     conn.release();
                     return bot.logger.error(chalk.red.bold(error));
                 }
+                msg.channel.createMessage('Welcome message has been disabled.');
                 conn.release();
             });
         }
@@ -68,7 +69,7 @@ function welcome(suffix, msg, conn, results, bot) {
 
 /////////// EVENT NOTIFICATIONS ///////////
 
-const eventList = ['memberjoined', 'memberleft', 'userbanned', 'userunbanned', 'namechanged', 'nicknamechanged'];
+const eventList = ['memberjoined', 'memberleft', 'userbanned', 'userunbanned', 'namechanged', 'nicknamechanged', 'userkicked'];
 
 function eventHandler(suffix, msg, conn, results) {
     if (suffix.toLowerCase() === 'disable') {
@@ -187,7 +188,7 @@ function unsubEvents(eventArray, channel) {
 }
 
 function getEventSetting(guildId, eventQ) {
-    return (genericSettingExistsFor(guildId, 'events') && genericSettings[guildId].events.subbed.includes(eventQ) === true) ? true : null;
+    return !!(genericSettingExistsFor(guildId, 'events') && genericSettings[guildId].events.subbed.includes(eventQ) === true);
 }
 
 function getGuildsEvents(guildId) {

@@ -22,7 +22,7 @@
     "chalk": "^2.3.0",
     "dotenv-safe": "^4.0.3",
     "eris": "github:abalabahaha/eris#dev",
-    "eris-additions": "^1.2.5",
+    "eris-additions": "github:minemidnight/eris-additions#master",
     "kawaii-kitsune": "^1.0.0",
     "longjohn": "^0.2.11",
     "malapi": "0.0.3",

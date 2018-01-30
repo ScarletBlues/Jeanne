@@ -42,7 +42,7 @@ exports.safeSave = (file, ext, data, minSize = 5, log = true) => {
     });
 };
 
-exports.findMember = (msg, str) => {
+exports.findUser = (msg, str) => {
     if (!str || str === '') return false;
     const guild = msg.channel.guild;
     if (!guild) return msg.mentions[0] ? msg.mentions[0] : false;
@@ -59,30 +59,21 @@ exports.findMember = (msg, str) => {
     } else return false;
 };
 
-exports.findUserInGuild = (query, guild, exact = false) => {
-    let found = null;
-    if (query === undefined || guild === undefined)
-        return found;
-    query = query.toLowerCase();
-    guild.members.forEach((m) => {
-        if (m.user.username.toLowerCase() === query) found = m;
-    });
-    if (!found) guild.members.forEach((m) => {
-        if (m.nick !== null && m.nick.toLowerCase() === query) found = m;
-    });
-    if (!found && exact === false) guild.members.forEach((m) => {
-        if (m.user.username.toLowerCase().indexOf(query) === 0) found = m;
-    });
-    if (!found && exact === false) guild.members.forEach((m) => {
-        if (m.nick !== null && m.nick.toLowerCase().indexOf(query) === 0) found = m;
-    });
-    if (!found && exact === false) guild.members.forEach((m) => {
-        if (m.user.username.toLowerCase().includes(query)) found = m;
-    });
-    if (!found && exact === false) guild.members.forEach((m) => {
-        if (m.nick !== null && m.nick.toLowerCase().includes(query)) found = m;
-    });
-    return found === null ? found : found.user;
+exports.findMember = (msg, str) => {
+    if (!str || str === '') return false;
+    const guild = msg.channel.guild;
+    if (!guild) return msg.mentions[0] ? msg.mentions[0] : false;
+    if (/^\d{17,18}/.test(str) || /^<@!?\d{17,18}>/.test(str)) {
+        const member = guild.members.get(/^<@!?\d{17,18}>/.test(str) ? str.replace(/<@!?/, '').replace('>', '') : str);
+        return member ? member : false;
+    } else if (str.length <= 33) {
+        const isMemberName = (name, str) => name === str || name.startsWith(str) || name.includes(str);
+        const member = guild.members.find((m) => {
+            if (m.nick && isMemberName(m.nick.toLowerCase(), str.toLowerCase())) return true;
+            return isMemberName(m.user.username.toLowerCase(), str.toLowerCase());
+        });
+        return member ? member : false;
+    } else return false;
 };
 
 exports.updateAbalBots = (id, key, server_count) => {
@@ -311,8 +302,26 @@ exports.round = (value, precision) => {
     return Math.round(value * multiplier) / multiplier;
 };
 
-exports.getDefaultColor = (msg, client) => {
-    const user = msg.channel.guild.members.get(client.user.id);
-    if (user.roles.length >= 1) return user.highestRole.color;
-    else return 15277667
+exports.getDefaultColor = (thing, client, guild = false) => {
+    if (guild) {
+        const user = thing.members.get(client.user.id);
+        if (user.roles.length >= 1) return user.highestRole.color;
+        else return 15277667
+    } else {
+        const user = thing.channel.guild.members.get(client.user.id);
+        if (user.roles.length >= 1) return user.highestRole.color;
+        else return 15277667
+    }
+};
+
+exports.unique = (a) => {
+    let prims = {'boolean': {}, 'number': {}, 'string': {}}, objs = [];
+    return a.filter(function (item) {
+        let type = typeof item;
+        if (type in prims) {
+            return prims[type].hasOwnProperty(item) ? false : (prims[type][item] = true);
+        } else {
+            return objs.indexOf(item) >= 0 ? false : objs.push(item);
+        }
+    });
 };

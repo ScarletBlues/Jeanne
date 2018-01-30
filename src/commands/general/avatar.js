@@ -11,8 +11,8 @@ class Avatar extends Command {
         });
     }
 
-    async handle({msg, client}, responder) {
-        if (!msg.args) {
+    async handle({msg, client, rawArgs}, responder) {
+        if (!rawArgs[0]) {
             const resp = await axios.get(msg.author.dynamicAvatarURL('', 1024), {
                 headers: {'Accept': 'image/*'},
                 responseType: 'arraybuffer'
@@ -25,8 +25,8 @@ class Avatar extends Command {
                 }
             });
         } else {
-            const member = client.utils.findMember(msg, msg.args);
-            if (!member) return responder.send(`Oops, it seems like I cound't find a member with \`${msg.args}\`\nPlease specify a name, ID or mention the user.`);
+            const member = client.utils.findMember(msg, rawArgs[0]);
+            if (!member) return responder.send(`Oops, it seems like I cound't find a member with \`${rawArgs[0]}\`\nPlease specify a name, ID or mention the user.`);
             const resp = await axios.get(member.dynamicAvatarURL('', 1024), {
                 headers: {'Accept': 'image/*'},
                 responseType: 'arraybuffer'

@@ -12,8 +12,8 @@ module.exports = (client, settingsManager, guild, member) => {
         conn.query('SELECT * FROM guildSettings WHERE guildID=?', [guild.id], (error, results) => {
             conn.release();
             if (error) return client.logger.error(chalk.red.bold(error));
-            if (!results[0]) return conn.release();
-            if (!results[0].modlogChannel) return conn.release();
+            if (!results[0]) return;
+            if (!results[0].modlogChannel) return;
             client.createMessage(results[0].modlogChannel, `\`[${new Date().toLocaleString()}]\` **Member Left:** ${member.user.username}`);
         });
     });

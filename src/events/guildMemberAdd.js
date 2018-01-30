@@ -14,11 +14,9 @@ module.exports = {
                 }
             });
             conn.query('SELECT * FROM guildSettings WHERE guildID=?', [guild.id], (error, results) => {
-                if (error) {
-                    conn.release();
-                    return client.logger.error(chalk.red.bold(error));
-                }
-                if (!results[0]) return conn.release();
+                conn.release();
+                if (error) return client.logger.error(chalk.red.bold(error));
+                if (!results[0]) return;
                 if (results[0].welcomeChannel && results[0].welcomeMsg && results[0].welcomeMsgEnabled === 1) {
                     let welcome = results[0].welcomeMsg;
                     welcome = welcome.replace(/{{MENTION}}/gi, member.mention)
@@ -39,7 +37,6 @@ module.exports = {
                         client.createMessage(results[0].modlogChannel, `\`[${new Date().toLocaleString()}]\` **Member Joined:** ${member.user.username}`);
                     }
                 }
-                conn.release();
             });
         });
         if (guild.id === '240059867744698368') {

@@ -13,8 +13,8 @@ class Stats extends Command {
         });
     }
 
-    async handle({msg, client}) {
-        msg.channel.createMessage({
+    async handle({msg, client}, responder) {
+        responder.send('', {
             embed: {
                 color: config.defaultColor,
                 author: {

@@ -21,11 +21,11 @@ class Ping extends Command {
         });
     }
 
-    async handle({msg}) {
+    async handle({msg, client}) {
         const choice = RESPONSES[~~(Math.random() * RESPONSES.length)];
         const m = await msg.channel.createMessage({
             embed: {
-                color: config.defaultColor,
+                color: client.utils.getDefaultColor(msg, client),
                 author: {
                     name: `${choice}`,
                 }
@@ -33,7 +33,7 @@ class Ping extends Command {
         });
         m.edit({
             embed: {
-                color: config.defaultColor,
+                color: client.utils.getDefaultColor(msg, client),
                 author: {
                     name: `${choice}`,
                 },

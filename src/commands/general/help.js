@@ -14,21 +14,22 @@ class Help extends Command {
         });
     }
 
-    async handle({msg, client}, responder) {
-        if (!msg.args) {
-            let cmdNames = uniq(client.commands.map((cmd) => cmd.name));
+    async handle({msg, client, rawArgs}, responder) {
+        if (!rawArgs[0]) {
+            const filteredCmds = client.commands.filter((cmd) => cmd.options.hidden === false || !cmd.options.hidden);
+            const cmdNames = client.utils.unique(filteredCmds.map((cmd) => cmd.name));
             responder.send('', {
                 embed: {
                     color: utils.getDefaultColor(msg, client),
                     description: `\`\`\`fix\n${cmdNames.join(', ')}\`\`\``,
                     footer: {
-                        text: `For more detail use j:help command_name`
+                        text: `For more detail use ${client.prefix}help command_name`
                     }
                 }
             });
         } else {
-            const cmd = client.commands.find((c) => c.name === msg.args);
-            if (!cmd) return msg.channel.createMessage(`❎ | No command found with the name **${msg.args}**`);
+            const cmd = client.commands.find((c) => c.name === rawArgs[0]);
+            if (!cmd) return msg.channel.createMessage(`❎ | No command found with the name **${rawArgs[0]}**`);
             let cmdUsage = '';
             if (cmd.usage.length >= 1) {
                 for (let i = 0; i < cmd.usage.length; i++) {
@@ -37,30 +38,16 @@ class Help extends Command {
             } else {
                 cmdUsage = 'None';
             }
-            let cmdName = cmd.name ? `${cmd.name[0].toUpperCase()}${cmd.name.substring(1)}` : '-';
             responder.send(`\`\`\`fix\n` +
-                `${cmdName}\n` +
-                `Desc:          ${cmd.description ? cmd.description : 'None'}\n` +
+                `Name:          ${cmd.name ? cmd.name : 'None'}\n` +
+                `Description:   ${cmd.description ? cmd.description : 'None'}\n` +
                 `Cooldown:      ${cmd.cooldown ? cmd.cooldown : 'None'}\n` +
                 `Group:         ${cmd.group ? cmd.group : 'None'}\n` +
                 `Arguments:     ${cmdUsage}\n` +
-                `Permissions:   ${cmd.permissions ? cmd.permissions : 'None'}\n` +
-                `\`\`\`` +
-                `<https://jeannedarc.xyz/cmds/#${cmd.name ? `command-${cmd.name}` : ''}>`);
+                `Permissions:   ${cmd.options.permissions ? cmd.options.permissions : 'None'}\n` +
+                `Website:       https://jeannedarc.xyz/cmds/#${cmd.name ? `command-${cmd.name}` : ''}\`\`\``);
         }
     }
-}
-
-function uniq(a) {
-    let prims = {'boolean': {}, 'number': {}, 'string': {}}, objs = [];
-    return a.filter(function (item) {
-        let type = typeof item;
-        if (type in prims) {
-            return prims[type].hasOwnProperty(item) ? false : (prims[type][item] = true);
-        } else {
-            return objs.indexOf(item) >= 0 ? false : objs.push(item);
-        }
-    });
 }
 
 module.exports = Help;

@@ -14,7 +14,7 @@ class Bot extends Command {
         })
     }
 
-    async handle({msg, client}, responder) {
+    async handle({msg, client, rawArgs}, responder) {
         if (!discordpw_key) return;
         if (msg.mentions[0]) {
             const user = msg.mentions[0];
@@ -45,9 +45,9 @@ class Bot extends Command {
                 }
             });
         } else {
-            const idRegex = /^\d{17,18}$/.test(msg.args);
+            const idRegex = /^\d{17,18}$/.test(rawArgs[0]);
             if (idRegex === false) return 'wrong usage';
-            const user = client.users.get(msg.args);
+            const user = client.users.get(rawArgs[0]);
             if (!user) return responder.send('❌ Something went wrong, make sure it\'s a valid user.');
             if (user.bot === false) return responder.send('❌ This is not a bot.');
             const resp = await axios.get(`https://bots.discord.pw/api/bots/${user.id}`, {

@@ -13,8 +13,8 @@ module.exports = {
         client.shards.forEach((shard) => {
             // TODO: Change playing statuses to work with "Listening to" and "Watching"
             let game = games[~~(Math.random() * games.length)];
-            game = game.replace(/{GUILDS}/g, guilds);
-            game = game.replace(/{USERS}/g, users);
+            game = game.replace(/{GUILDS}/g, guilds)
+                    .replace(/{USERS}/g, users);
             shard.editStatus({name: game, type: 1, url: 'https://twitch.tv/twitch/'});
         });
     }
