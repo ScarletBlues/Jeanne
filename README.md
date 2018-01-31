@@ -11,10 +11,15 @@ This code is the rewrite of Jeanne d'Arc, it is not completed yet and many thing
 Note that this code is currently not running on the actualy bot yet because of that!<br/>
 I expect to finish the rewrite by the end of next week which is February 6th
 <br/><br/>
-Jeanne is created with Eris a NodeJS library https://github.com/abalabahaha/eris<br/>
 Jeanne has her own website at https://jeannedarc.xyz<br/>
 Join her support guild with https://discord.gg/p895czC<br/>
 You can invite the bot to your server with https://jeannedarc.xyz/invite
+
+Notable people
+-
+abal - [Eris](https://github.com/abalabahaha/eris) A NodeJS library for interacting with Discord's api.<br/>
+pyraxo - [Sylphy](https://github.com/pyraxo/sylphy) A Discord bot framework.<br/>
+minemidnight - [eris-additions](https://github.com/minemidnight/eris-additions/) Extend prototypes for eris and making my life alot easier
 
 Open-Source
 -
