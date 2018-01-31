@@ -13,7 +13,7 @@ I expect to finish the rewrite by the end of next week which is February 6th
 <br/><br/>
 Jeanne is created with Eris a NodeJS library https://github.com/abalabahaha/eris<br/>
 Jeanne has her own website at https://jeannedarc.xyz<br/>
-Join her support guild with https://discord.gg/Vf4ne5b<br/>
+Join her support guild with https://discord.gg/p895czC<br/>
 You can invite the bot to your server with https://jeannedarc.xyz/invite
 
 Open-Source
@@ -24,4 +24,4 @@ Questions?
 -
 Join the Jeanne server:
 
-[![Discord](https://discordapp.com/api/guilds/240059867744698368/embed.png?style=banner2)](https://discord.gg/Vf4ne5b)
+[![Discord](https://discordapp.com/api/guilds/240059867744698368/embed.png?style=banner2)](https://discord.gg/p895czC)
