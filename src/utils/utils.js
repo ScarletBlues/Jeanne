@@ -325,3 +325,11 @@ exports.unique = (a) => {
         }
     });
 };
+
+exports.hasPermissions = (channel, user, ...perms) => {
+    const member = channel.guild.members.get(user.id);
+    for (let perm of perms) {
+        if (!member.permission.has(perm)) return false;
+    }
+    return true;
+};
