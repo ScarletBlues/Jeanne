@@ -1,5 +1,5 @@
 [![Discord Bots](https://discordbots.org/api/widget/status/237578660708745216.svg?noavatar=true)](https://discordbots.org/bot/237578660708745216)
-[![Discord](https://discordapp.com/api/guilds/240059867744698368/embed.png)](https://discord.gg/Vf4ne5b)
+[![Discord](https://discordapp.com/api/guilds/240059867744698368/embed.png)](https://discord.gg/p895czC)
 
 [![dependencies](https://david-dm.org/Chaldea-devs/Jeanne/status.svg?style=flat-square)](https://david-dm.org/Chaldea-devs/Jeanne)
 [![devDependencies](https://david-dm.org/Chaldea-devs/Jeanne/dev-status.svg?style=flat-square)](https://david-dm.org/Chaldea-devs/Jeanne?type=dev)
