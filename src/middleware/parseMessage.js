@@ -11,7 +11,7 @@ module.exports = {
         const trigger = container.trigger = rawArgs[0].toLowerCase();
 
         const cmd = commands.find((cmd) => cmd.name === trigger);
-        if (cmd.options.botPermissions !== []) {
+        if (cmd.options && cmd.options.botPermissions && cmd.options.botPermissions !== []) {
             let permMessage = '';
             let missingPerms = false;
             cmd.options.botPermissions.forEach((p) => {
