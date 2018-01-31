@@ -1,4 +1,5 @@
 const chalk = require('chalk');
+const cleverbot = require('../utils/cleverbot');
 
 module.exports = {
     handler(client, msg) {
@@ -48,5 +49,6 @@ module.exports = {
                 }
             });
         });
+        if (msg.mentions.length !== 0 && msg.content.search(new RegExp(`^<@!?${client.user.id}>`)) === 0) cleverbot(client, msg);
     }
 };
