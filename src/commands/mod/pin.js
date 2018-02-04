@@ -12,8 +12,8 @@ class Pin extends Command {
 
     async handle({msg, rawArgs}, responder) {
         const idRegex = /^\d{17,18}$/.test(rawArgs[0]);
-        if (idRegex === false) return msg.channel.createMessage('\\❌ Invalid message id.');
-        msg.channel.pinMessage(args);
+        if (idRegex === false) return responder.send('\\❌ Invalid message id.');
+        msg.channel.pinMessage(rawArgs[0]);
     }
 }
 

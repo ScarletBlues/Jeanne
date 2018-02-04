@@ -1,6 +1,4 @@
 const {Command} = require('sylphy');
-const reload = require('require-reload');
-const config = reload('../../../config.json');
 
 const RESPONSES = [
     'pong',

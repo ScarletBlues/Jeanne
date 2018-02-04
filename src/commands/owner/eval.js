@@ -14,17 +14,17 @@ class Eval extends Command {
             let toEval = msg.content.replace(/!!eval /g, '');
             let result = '~eval failed~';
             let lower = toEval.toLowerCase();
-            if (lower.includes('client.token')) return msg.channel.createMessage('owo nothing to be found here.');
+            if (lower.includes('client.token')) return responder.send('owo nothing to be found here.');
             try {
                 result = eval(toEval);
             } catch (error) {
-                msg.channel.createMessage(`__**Input:**__\n\`\`\`js\n${toEval}\`\`\`\n__**Error:**__\n\`\`\`diff\n- ${error}\`\`\``);
+                responder.send(`__**Input:**__\n\`\`\`js\n${toEval}\`\`\`\n__**Error:**__\n\`\`\`diff\n- ${error}\`\`\``);
             }
             if (result !== '~eval failed~') {
-                msg.channel.createMessage(`__**Input:**__\n\`\`\`js\n${toEval}\`\`\`\n__**Result:**__\n\`\`\`${result}\`\`\``);
+                responder.send(`__**Input:**__\n\`\`\`js\n${toEval}\`\`\`\n__**Result:**__\n\`\`\`${result}\`\`\``);
             }
         } else {
-            msg.channel.createMessage('❎ | Only my developer can execute this command.');
+            responder.send('❎ | Only my developer can execute this command.');
         }
     }
 }

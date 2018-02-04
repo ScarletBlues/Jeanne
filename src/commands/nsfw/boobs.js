@@ -14,7 +14,7 @@ class Boobs extends Command {
         });
     }
 
-    async handle({client, msg}, responder) {
+    async handle({msg}, responder) {
         if (msg.channel.nsfw === false) return responder.send('❎ | NSFW is not enabled in this channel, enable NSFW in the channel settings.');
         const res = await axios.get('http://api.oboobs.ru/boobs/0/1/random');
         if (!res.data[0]) return responder.send(`❎ | No images were found, sorry!`);

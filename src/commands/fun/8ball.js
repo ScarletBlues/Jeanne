@@ -31,9 +31,9 @@ class EightBall extends Command {
         });
     }
 
-    async handle({msg}, responder) {
+    async handle({}, responder) {
         const choice = answers[~~(Math.random() * answers.length)];
-        msg.channel.createMessage('🎱 | ' + choice);
+        responder.send('🎱 | ' + choice);
     }
 }
 

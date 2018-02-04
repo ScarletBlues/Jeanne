@@ -2,7 +2,6 @@ module.exports = {
     priority: 2,
     process: container => {
         const {client, msg, commands} = container;
-        const isPrivate = container.isPrivate = !msg.channel.guild;
         const prefix = container.prefix = process.env.CLIENT_PREFIX;
         if (!msg.content.startsWith(prefix)) return Promise.resolve();
         const permCheck = client.utils.hasPermissions(msg.channel, client.user, ['sendMessages']);
@@ -16,9 +15,9 @@ module.exports = {
             } else {
                 if (cmd.aliases) {
                     cmd.aliases.forEach((a) => {
-                       if (a === trigger) {
-                           return cmd;
-                       }
+                        if (a === trigger) {
+                            return cmd;
+                        }
                     });
                 }
                 return undefined;
@@ -43,8 +42,10 @@ module.exports = {
         }
 
         client.commands = commands;
+        container.isPrivate = !msg.channel.guild;
         container.isCommand = commands.has(trigger);
         container.rawArgs = rawArgs.slice(1).filter(v => !!v).join(' ').split(/ ?\| ?/g);
+        if (container.isCommand) client.commandsProcessed++;
         return Promise.resolve(container)
     }
 };

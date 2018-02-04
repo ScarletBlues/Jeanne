@@ -78,6 +78,7 @@ client.db_pool = mysql.createPool({
 client.chalk = chalk;
 client.utils = utils;
 client.userAgent = `Jeanne d'Arc - (https://github.com/Chaldea-devs/Jeanne) v${version}`;
+client.commandsProcessed = 0;
 
 function loadEvents() { // Load all events in events/
     return new Promise((resolve, reject) => {

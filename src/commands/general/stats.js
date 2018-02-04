@@ -1,7 +1,4 @@
 const {Command} = require('sylphy');
-const reload = require('require-reload');
-const config = reload('../../../config.json');
-const utils = require('../../utils/utils.js');
 
 class Stats extends Command {
     constructor(...args) {
@@ -16,7 +13,7 @@ class Stats extends Command {
     async handle({msg, client}, responder) {
         responder.send('', {
             embed: {
-                color: config.defaultColor,
+                color: client.utils.getDefaultColor(msg, client),
                 author: {
                     name: `${client.user.username}'s Statistics:`,
                     url: 'http://kurozero.xyz/',
@@ -47,7 +44,7 @@ class Stats extends Command {
                     },
                     {
                         name: 'Uptime',
-                        value: `${utils.formatSeconds(process.uptime())}`,
+                        value: `${client.utils.formatSeconds(process.uptime())}`,
                         inline: false
                     },
                     {
@@ -77,12 +74,12 @@ class Stats extends Command {
                     },
                     {
                         name: 'Total commands used',
-                        value: `${commandsProcessed}`,
+                        value: client.commandsProcessed,
                         inline: true
                     },
                     {
                         name: 'Average',
-                        value: `${(commandsProcessed / (client.uptime / (1000 * 60))).toFixed(2)}/min`,
+                        value: `${(client.commandsProcessed / (client.uptime / (1000 * 60))).toFixed(2)}/min`,
                         inline: true
                     }
                 ]

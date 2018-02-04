@@ -25,7 +25,7 @@ class Catgirl extends Command {
             if (site === 'nekos.brussell') {
                 const res = await axios.get('https://nekos.brussell.me/api/v1/random/image?nsfw=false', {
                     headers: {
-                        'User-Agent': 'Kitsune - (https://github.com/KurozeroPB)'
+                        'User-Agent': client.userAgent
                     }
                 });
                 const data = res.data;
@@ -41,7 +41,7 @@ class Catgirl extends Command {
             } else if (site === 'nekos.life') {
                 const res = await axios.get('https://nekos.life/api/neko', {
                     headers: {
-                        'User-Agent': 'Kitsune - (https://github.com/KurozeroPB)'
+                        'User-Agent': client.userAgent
                     }
                 });
                 const data = res.data;
@@ -66,7 +66,7 @@ class Catgirl extends Command {
             if (site === 'nekos.brussell') {
                 const res = await axios.get('https://nekos.brussell.me/api/v1/random/image?nsfw=true', {
                     headers: {
-                        'User-Agent': 'Kitsune - (https://github.com/KurozeroPB)'
+                        'User-Agent': client.userAgent
                     }
                 });
                 const data = res.data;
@@ -82,7 +82,7 @@ class Catgirl extends Command {
             } else if (site === 'nekos.life') {
                 const res = await axios.get('https://nekos.life/api/lewd/neko', {
                     headers: {
-                        'User-Agent': 'Kitsune - (https://github.com/KurozeroPB)'
+                        'User-Agent': client.userAgent
                     }
                 });
                 const data = res.data;

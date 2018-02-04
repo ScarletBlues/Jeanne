@@ -10,31 +10,18 @@ class Exec extends Command {
         });
     }
 
-    async handle({msg, client}) {
+    async handle({msg, client}, responder) {
         let args = msg.content.split(' ');
         args.shift();
         args = args.join(' ');
         if (client.admins.indexOf(msg.author.id) !== -1) {
-            exec(args, {
-                maxBuffer: Infinity
-            }, (err, stdout, stderr) => {
-                if (err) return msg.channel.createMessage(`
-\`\`\`glsl
-${err}
-\`\`\``);
-
-                if (stderr) return msg.channel.createMessage(`
-\`\`\`glsl
-${stderr}
-\`\`\``);
-
-                msg.channel.createMessage(`
-\`\`\`glsl
-${stdout}
-\`\`\``);
+            exec(args, {maxBuffer: Infinity}, (err, stdout, stderr) => {
+                if (err) return responder.send(`\`\`\`glsl\n${err}\`\`\``);
+                if (stderr) return responder.send(`\`\`\`glsl\n${stderr}\`\`\``);
+                responder.send(`\`\`\`glsl\n${stdout}\`\`\``);
             });
         } else {
-            msg.channel.createMessage('❎ | Only my developer can execute this command.');
+            responder.send('❎ | Only my developer can execute this command.');
         }
     }
 }

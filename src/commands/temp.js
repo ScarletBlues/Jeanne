@@ -15,7 +15,7 @@ class Temp extends Command {
         });
     }
 
-    async handle({msg, client, rawArgs, logger}, responder) {
+    async handle(/*{msg, client, rawArgs, logger}, responder*/) {
 
     }
 }
