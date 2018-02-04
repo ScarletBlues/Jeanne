@@ -10,3 +10,10 @@ plugins:
 ratings:
   paths:
   - "**.js"
+checks:
+  file-lines:
+    enabled: false
+  method-complexity:
+    enabled: false
+  similar-code:
+    enabled: false
