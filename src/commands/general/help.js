@@ -28,7 +28,20 @@ class Help extends Command {
                 }
             });
         } else {
-            const cmd = client.commands.find((c) => c.name === rawArgs[0]);
+            const cmd = client.commands.find((c) => {
+                if (c.name === rawArgs[0]) {
+                    return c;
+                } else {
+                    if (c.aliases) {
+                        c.aliases.forEach((a) => {
+                            if (a === rawArgs[0]) {
+                                return c;
+                            }
+                        });
+                    }
+                    return undefined;
+                }
+            });
             if (!cmd) return msg.channel.createMessage(`❎ | No command found with the name **${rawArgs[0]}**`);
             let cmdUsage = '';
             if (cmd.usage.length >= 1) {
