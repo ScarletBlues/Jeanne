@@ -1,4 +1,5 @@
 [![Discord Bots](https://discordbots.org/api/widget/status/237578660708745216.svg?noavatar=true)](https://discordbots.org/bot/237578660708745216)
+[![Maintainability](https://api.codeclimate.com/v1/badges/27e8569bfd75c06c21ac/maintainability)](https://codeclimate.com/github/Chaldea-devs/Jeanne/maintainability)
 [![Discord](https://discordapp.com/api/guilds/240059867744698368/embed.png)](https://discord.gg/p895czC)
 
 [![dependencies](https://david-dm.org/Chaldea-devs/Jeanne/status.svg?style=flat-square)](https://david-dm.org/Chaldea-devs/Jeanne)
