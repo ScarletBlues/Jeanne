@@ -33,53 +33,29 @@ class Sfwbooru extends Command {
                 }
             });
         } else {
-            if (!tags) {
-                try {
-                    const resp = await sfwbooru.search(site, ['s'], {limit: 1, random: true});
-                    const images = await sfwbooru.commonfy(resp);
-                    for (const image of images) {
-                        const imageURL = image.common.file_url.replace(/ /g, '%20');
-                        responder.send('', {
-                            embed: {
-                                color: client.utils.getDefaultColor(msg, client),
-                                title: 'Click here for the direct image url',
-                                url: imageURL,
-                                description: `Score: ${image.common.score}\nRating: ${image.common.rating}`,
-                                image: {url: `${imageURL}`}
-                            }
-                        });
-                    }
-                } catch (e) {
-                    if (e.name && e.name === 'booruError') {
-                        if (e.message === 'You didn\'t give any images') return responder.send(`No images were found using \`${tags.join(', ')}\``);
-                        return responder.send(e.message);
-                    } else {
-                        logger.error(client.chalk.red.bold(e))
-                    }
+            try {
+                let resp = tags
+                    ? await sfwbooru.search(site, [...tags, 's'], {limit: 1, random: true})
+                    : await sfwbooru.search(site, ['s'], {limit: 1, random: true});
+                const images = await sfwbooru.commonfy(resp);
+                for (const image of images) {
+                    const imageURL = image.common.file_url.replace(/ /g, '%20');
+                    responder.send('', {
+                        embed: {
+                            color: client.utils.getDefaultColor(msg, client),
+                            title: 'Click here for the direct image url',
+                            url: imageURL,
+                            description: `Searched tags: ${tags.join(', ')}\nScore: ${image.common.score}\nRating: ${image.common.rating}`,
+                            image: {url: imageURL}
+                        }
+                    });
                 }
-            } else {
-                try {
-                    const resp = await sfwbooru.search(site, [...tags, 's'], {limit: 1, random: true});
-                    const images = await sfwbooru.commonfy(resp);
-                    for (const image of images) {
-                        const imageURL = image.common.file_url.replace(/ /g, '%20');
-                        responder.send('', {
-                            embed: {
-                                color: client.utils.getDefaultColor(msg, client),
-                                title: 'Click here for the direct image url',
-                                url: imageURL,
-                                description: `Searched tags: ${tags.join(', ')}\nScore: ${image.common.score}\nRating: ${image.common.rating}`,
-                                image: {url: imageURL}
-                            }
-                        });
-                    }
-                } catch (e) {
-                    if (e.name && e.name === 'booruError') {
-                        if (e.message === 'You didn\'t give any images') return responder.send(`No images were found using \`${tags.join(', ')}\``);
-                        return responder.send(e.message);
-                    } else {
-                        logger.error(client.chalk.red.bold(e))
-                    }
+            } catch (e) {
+                if (e.name && e.name === 'booruError') {
+                    if (e.message === 'You didn\'t give any images') return responder.send(`No images were found using \`${tags.join(', ')}\``);
+                    return responder.send(e.message);
+                } else {
+                    logger.error(client.chalk.red.bold(e))
                 }
             }
         }
