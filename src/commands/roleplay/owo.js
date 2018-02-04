@@ -3,18 +3,18 @@ const reload = require('require-reload');
 const config = reload('../../../config.json');
 const axios = require('axios');
 
-class Pout extends Command {
+class OWO extends Command {
     constructor(...args) {
         super(...args, {
-            name: 'pout',
-            description: 'sends a pouting anime character.',
-            group: 'anime'
+            name: 'owo',
+            description: 'owo, what\'s this?',
+            group: 'roleplay'
         });
     }
 
     async handle({msg}) {
         const base_url = 'https://rra.ram.moe';
-        const type = 'pout';
+        const type = 'owo';
         const path = '/i/r?type=' + type;
 
         const res = await axios.get(base_url + path);
@@ -30,4 +30,4 @@ class Pout extends Command {
     }
 }
 
-module.exports = Pout;
+module.exports = OWO;

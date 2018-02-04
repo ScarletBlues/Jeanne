@@ -12,6 +12,7 @@ const mysql = require('mysql');
 const fs = require('fs');
 const utils = require('./utils/utils.js');
 const settingsManager = require('./utils/settingsManager');
+const version = require('../package').version;
 const reload = require('require-reload');
 
 const resolve = (str) => path.join('src', str);
@@ -76,6 +77,7 @@ client.db_pool = mysql.createPool({
 
 client.chalk = chalk;
 client.utils = utils;
+client.userAgent = `Jeanne d'Arc - (https://github.com/Chaldea-devs/Jeanne) v${version}`;
 
 function loadEvents() { // Load all events in events/
     return new Promise((resolve, reject) => {

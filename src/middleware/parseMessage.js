@@ -10,8 +10,22 @@ module.exports = {
         const rawArgs = msg.content.substring(prefix.length).split(' ');
         const trigger = container.trigger = rawArgs[0].toLowerCase();
 
-        const cmd = commands.find((cmd) => cmd.name === trigger);
-        if (cmd.options && cmd.options.botPermissions && cmd.options.botPermissions !== []) {
+        const cmd = commands.find((cmd) => {
+            if (cmd.name === trigger) {
+                return cmd;
+            } else {
+                if (cmd.aliases) {
+                    cmd.aliases.forEach((a) => {
+                       if (a === trigger) {
+                           return cmd;
+                       }
+                    });
+                }
+                return undefined;
+            }
+        });
+
+        if (cmd && cmd.options && cmd.options.botPermissions && cmd.options.botPermissions !== []) {
             let permMessage = '';
             let missingPerms = false;
             cmd.options.botPermissions.forEach((p) => {

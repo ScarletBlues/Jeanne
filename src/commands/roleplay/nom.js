@@ -2,28 +2,19 @@ const {Command} = require('sylphy');
 const reload = require('require-reload');
 const config = reload('../../../config.json');
 const axios = require('axios');
-const findMember = require('../../utils/utils.js').findMember;
 
-class Pat extends Command {
+class Nom extends Command {
     constructor(...args) {
         super(...args, {
-            name: 'pat',
-            description: 'give someone a nice pat.',
-            group: 'anime'
+            name: 'nom',
+            description: 'sends an anime character enjoying food.',
+            group: 'roleplay'
         });
     }
 
     async handle({msg}) {
-        let args = msg.content.split(' ');
-        args.shift();
-        args = args.join(' ');
-        if (!args) return msg.channel.createMessage('❎ | Please mention a member to pat');
-
-        const member = findMember(msg, args);
-        if (!member) return msg.channel.createMessage(`❎ | Couldn't find a member for **${args}**`);
-
         const base_url = 'https://rra.ram.moe';
-        const type = 'pat';
+        const type = 'nom';
         const path = '/i/r?type=' + type;
 
         const res = await axios.get(base_url + path);
@@ -31,7 +22,6 @@ class Pat extends Command {
         msg.channel.createMessage({
             embed: {
                 color: config.defaultColor,
-                title: `${msg.author.nickname ? msg.author.nickname : msg.author.username} gives ${member.nickname ? member.nickname : member.username} a nice pat`,
                 image: {
                     url: base_url + res.data.path
                 }
@@ -40,4 +30,4 @@ class Pat extends Command {
     }
 }
 
-module.exports = Pat;
+module.exports = Nom;

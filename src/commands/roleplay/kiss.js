@@ -2,19 +2,28 @@ const {Command} = require('sylphy');
 const reload = require('require-reload');
 const config = reload('../../../config.json');
 const axios = require('axios');
+const findMember = require('../../utils/utils.js').findMember;
 
-class Nom extends Command {
+class Kiss extends Command {
     constructor(...args) {
         super(...args, {
-            name: 'nom',
-            description: 'sends an anime character enjoying food.',
-            group: 'anime'
+            name: 'kiss',
+            description: 'give someone a kiss.',
+            group: 'roleplay'
         });
     }
 
     async handle({msg}) {
+        let args = msg.content.split(' ');
+        args.shift();
+        args = args.join(' ');
+        if (!args) return msg.channel.createMessage('❎ | Please mention a member to kiss');
+
+        const member = findMember(msg, args);
+        if (!member) return msg.channel.createMessage(`❎ | Couldn't find a member for **${args}**`);
+
         const base_url = 'https://rra.ram.moe';
-        const type = 'nom';
+        const type = 'kiss';
         const path = '/i/r?type=' + type;
 
         const res = await axios.get(base_url + path);
@@ -22,6 +31,7 @@ class Nom extends Command {
         msg.channel.createMessage({
             embed: {
                 color: config.defaultColor,
+                title: `${msg.author.nickname ? msg.author.nickname : msg.author.username} kisses ${member.nickname ? member.nickname : member.username}`,
                 image: {
                     url: base_url + res.data.path
                 }
@@ -30,4 +40,4 @@ class Nom extends Command {
     }
 }
 
-module.exports = Nom;
+module.exports = Kiss;

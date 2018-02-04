@@ -18,16 +18,15 @@ function trimText(cleanContent, name) {
 }
 
 async function cleverbot(client, msg) {
+    const permCheck = client.utils.hasPermissions(msg.channel, client.user, ['sendMessages']);
+    if (!permCheck) return;
+
     const owner = client.users.get(client.admins[0]);
     let text = msg.channel.guild === undefined ? msg.cleanContent : trimText(msg.cleanContent, msg.channel.guild.members.get(client.user.id).nick || client.user.username);
     if (spamCheck(msg.author.id, text)) {
         client.logger.info(`${chalk.bold.magenta(msg.channel.guild === undefined ? '(in PMs)' : msg.channel.guild.name)} > ${chalk.bold.green(msg.author.username)}: ${chalk.bold.blue(`@${client.user.username}`)} ${text}`);
         if (text === '') {
-            try {
-                await msg.channel.createMessage(`${msg.author.username}, What do you want to talk about?`);
-            } catch (error) {
-                return;
-            }
+            await msg.channel.createMessage(`${msg.author.username}, What do you want to talk about?`);
         } else {
             msg.channel.sendTyping();
             try {

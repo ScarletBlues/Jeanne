@@ -302,16 +302,22 @@ exports.round = (value, precision) => {
     return Math.round(value * multiplier) / multiplier;
 };
 
-exports.getDefaultColor = (thing, client, guild = false) => {
-    if (guild) {
-        const user = thing.members.get(client.user.id);
-        if (user.roles.length >= 1) return user.highestRole.color;
-        else return 15277667
-    } else {
-        const user = thing.channel.guild.members.get(client.user.id);
-        if (user.roles.length >= 1) return user.highestRole.color;
-        else return 15277667
-    }
+/**
+ *
+ * @param obj {object} The message or guild object depending on if guild is true or false
+ * @param client {object} The client object
+ * @param guild {boolean} Wether obj is a guild object or not, defaults to false
+ * @returns {number} The color
+ */
+exports.getDefaultColor = (obj, client, guild = false) => {
+    let user;
+    if (guild) user = obj.members.get(client.user.id);
+    else user = obj.channel.guild.members.get(client.user.id);
+
+    if (user.roles.length >= 1) {
+        if (user.highestRole.color === 0) return 15277667;
+        else return user.highestRole.color;
+    } else return 15277667
 };
 
 exports.unique = (a) => {

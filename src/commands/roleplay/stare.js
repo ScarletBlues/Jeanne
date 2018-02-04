@@ -3,12 +3,12 @@ const reload = require('require-reload');
 const config = reload('../../../config.json');
 const axios = require('axios');
 
-class Cry extends Command {
+class Stare extends Command {
     constructor(...args) {
         super(...args, {
-            name: 'cry',
-            description: 'sends a crying anime character image.',
-            group: 'anime'
+            name: 'stare',
+            description: 'sends an anime character staring.',
+            group: 'roleplay'
         });
     }
 
@@ -30,4 +30,4 @@ class Cry extends Command {
     }
 }
 
-module.exports = Cry;
+module.exports = Stare;

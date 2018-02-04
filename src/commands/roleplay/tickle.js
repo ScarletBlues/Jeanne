@@ -4,12 +4,12 @@ const config = reload('../../../config.json');
 const axios = require('axios');
 const findMember = require('../../utils/utils.js').findMember;
 
-class Lick extends Command {
+class Tickle extends Command {
     constructor(...args) {
         super(...args, {
-            name: 'lick',
-            description: 'lick someone.',
-            group: 'anime'
+            name: 'tickle',
+            description: 'tickle someone.',
+            group: 'roleplay'
         });
     }
 
@@ -17,13 +17,13 @@ class Lick extends Command {
         let args = msg.content.split(' ');
         args.shift();
         args = args.join(' ');
-        if (!args) return msg.channel.createMessage('❎ | Please mention a member to lick');
+        if (!args) return msg.channel.createMessage('❎ | Please mention a member to tickle');
 
         const member = findMember(msg, args);
         if (!member) return msg.channel.createMessage(`❎ | Couldn't find a member for **${args}**`);
 
         const base_url = 'https://rra.ram.moe';
-        const type = 'lick';
+        const type = 'tickle';
         const path = '/i/r?type=' + type;
 
         const res = await axios.get(base_url + path);
@@ -31,7 +31,7 @@ class Lick extends Command {
         msg.channel.createMessage({
             embed: {
                 color: config.defaultColor,
-                title: `${msg.author.nickname ? msg.author.nickname : msg.author.username} licks ${member.nickname ? member.nickname : member.username}`,
+                title: `${msg.author.nickname ? msg.author.nickname : msg.author.username} tickles ${member.nickname ? member.nickname : member.username}`,
                 image: {
                     url: base_url + res.data.path
                 }
@@ -40,4 +40,4 @@ class Lick extends Command {
     }
 }
 
-module.exports = Lick;
+module.exports = Tickle;

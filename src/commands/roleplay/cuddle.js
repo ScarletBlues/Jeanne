@@ -2,19 +2,28 @@ const {Command} = require('sylphy');
 const reload = require('require-reload');
 const config = reload('../../../config.json');
 const axios = require('axios');
+const findMember = require('../../utils/utils.js').findMember;
 
-class Smug extends Command {
+class Cuddle extends Command {
     constructor(...args) {
         super(...args, {
-            name: 'smug',
-            description: 'sends an anime character with a smug face.',
-            group: 'anime'
+            name: 'cuddle',
+            description: 'cuddle with someone.',
+            group: 'roleplay'
         });
     }
 
     async handle({msg}) {
+        let args = msg.content.split(' ');
+        args.shift();
+        args = args.join(' ');
+        if (!args) return msg.channel.createMessage('❎ | Please mention a member to cuddle');
+
+        const member = findMember(msg, args);
+        if (!member) return msg.channel.createMessage(`❎ | Couldn't find a member for **${args}**`);
+
         const base_url = 'https://rra.ram.moe';
-        const type = 'cry';
+        const type = 'cuddle';
         const path = '/i/r?type=' + type;
 
         const res = await axios.get(base_url + path);
@@ -22,6 +31,7 @@ class Smug extends Command {
         msg.channel.createMessage({
             embed: {
                 color: config.defaultColor,
+                title: `${msg.author.nickname ? msg.author.nickname : msg.author.username} gives ${member.nickname ? member.nickname : member.username} a cuddle`,
                 image: {
                     url: base_url + res.data.path
                 }
@@ -30,4 +40,4 @@ class Smug extends Command {
     }
 }
 
-module.exports = Smug;
+module.exports = Cuddle;
