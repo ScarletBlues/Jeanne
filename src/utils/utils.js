@@ -76,14 +76,14 @@ exports.findMember = (msg, str) => {
     } else return false;
 };
 
-exports.updateAbalBots = (id, key, server_count) => {
+exports.updateAbalBots = (client, id, key, server_count) => {
     if (!key || !server_count) return;
     axios.post(`https://bots.discord.pw/api/bots/${id}/stats`, {
         server_count
     }, {
         headers: {
             'Authorization': key,
-            'User-Agent': USERAGENT
+            'User-Agent': client.userAgent
         }
     }).then((res) => {
         if (res.status !== 200) return logger.error(chalk.red.bold(`[ABAL BOT LIST UPDATE ERROR] ${res.status || res.data}`));
@@ -91,7 +91,7 @@ exports.updateAbalBots = (id, key, server_count) => {
     }).catch((err) => logger.error(chalk.red.bold(`[ABAL BOT LIST UPDATE ERROR] ${err}\n${JSON.stringify(err.response.data)}`)));
 };
 
-exports.updateDiscordBots = (id, key, server_count, shard_count) => {
+exports.updateDiscordBots = (client, id, key, server_count, shard_count) => {
     if (!key || !server_count) return;
     axios.post(`https://discordbots.org/api/bots/${id}/stats`, {
         server_count,
@@ -99,7 +99,7 @@ exports.updateDiscordBots = (id, key, server_count, shard_count) => {
     }, {
         headers: {
             'Authorization': key,
-            'User-Agent': USERAGENT
+            'User-Agent': client.userAgent
         }
     }).then((res) => {
         if (res.status !== 200) return logger.error(chalk.red.bold(`[BOTS .ORG LIST UPDATE ERROR] ${res.status || res.data}`));
@@ -111,7 +111,7 @@ exports.setAvatar = (bot, url) => {
         if (bot !== undefined && typeof url === 'string') {
             axios.get(url, {
                 headers: {
-                    'User-Agent': USERAGENT
+                    'User-Agent': bot.userAgent
                 },
                 responseType: 'arraybuffer'
             }).then((res) => {
@@ -236,7 +236,7 @@ exports.sortProperties = (obj, sortedBy, isNumericSort, reverse) => {
     return sortable;
 };
 
-exports.startMoeWS = () => {
+exports.startMoeWS = (client) => {
     return new Promise((resolve, reject) => {
         const ws = new WebSocket('wss://listen.moe/api/v2/socket');
         ws.on('open', function open() {
@@ -245,15 +245,17 @@ exports.startMoeWS = () => {
                 password: config.listenmoe_password
             }, {
                 headers: {
-                    'User-Agent': USERAGENT,
+                    'User-Agent': client.userAgent,
                     'Accept': 'application/json',
                 },
             }).then((res) => {
-                if (res.data.success === false) return reject(res.data.message);
+                if (!res.data.success) return reject(res.data.message);
                 const auth = JSON.stringify({
                     'token': res.data.token
                 });
-                ws.send(auth);
+                ws.send(auth, {compress: true, binary: false, fin: false, mask: false}, () => {
+                    // Some stuff
+                });
             }).catch((err) => reject(err));
         });
         ws.on('message', function incoming(data) {

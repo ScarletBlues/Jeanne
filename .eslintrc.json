@@ -29,10 +29,11 @@
       }
     ],
     "no-trailing-spaces": 1,
-    "space-before-function-paren": [
-      "warn",
-      "never"
-    ],
+    "space-before-function-paren": ["warn", {
+      "anonymous": "ignore",
+      "named": "ignore",
+      "asyncArrow": "always"
+    }],
     "arrow-spacing": 1,
     "comma-spacing": [
       "warn",
