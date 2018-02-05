@@ -17,3 +17,5 @@ checks:
     enabled: false
   similar-code:
     enabled: false
+  method-lines:
+    enabled: false
