@@ -1,8 +1,6 @@
 const {Command} = require('sylphy');
 const axios = require('axios');
-const discordpw_key = require('../../../config').abalBotsKey;
-// temp useragent
-const USERAGENT = 'Jeanne/v4.0.0 (https://github.com/Chaldea-dev/Jeanne)';
+const config = require('../../../config');
 
 class Bot extends Command {
     constructor(...args) {
@@ -15,38 +13,20 @@ class Bot extends Command {
     }
 
     async handle({msg, client, rawArgs}, responder) {
-        if (!discordpw_key) return;
-        let user, data, inv, owners;
-        if (msg.mentions[0]) {
-            user = msg.mentions[0];
-            if (user.bot === false) return responder.send('❌ This is not a bot.');
-            const resp = await axios.get(`https://bots.discord.pw/api/bots/${user.id}`, {
-                headers: {
-                    'Authorization': discordpw_key,
-                    'User-Agent': USERAGENT
-                }
-            });
-            data = resp.data;
-            if (resp.status !== 200) return responder.send(`Could not fetch the data,\n${resp.status}: ${resp.message}`);
-            inv = data.invite_url.replace(/ /g, '%20');
-            owners = data.owner_ids.map((o) => `<@!${o}>`);
-        } else {
-            const idRegex = /^\d{17,18}$/.test(rawArgs[0]);
-            if (idRegex === false) return 'wrong usage';
-            user = client.users.get(rawArgs[0]);
-            if (!user) return responder.send('❌ Something went wrong, make sure it\'s a valid user.');
-            if (user.bot === false) return responder.send('❌ This is not a bot.');
-            const resp = await axios.get(`https://bots.discord.pw/api/bots/${user.id}`, {
-                headers: {
-                    'Authorization': discordpw_key,
-                    'User-Agent': USERAGENT
-                }
-            });
-            data = resp.data;
-            if (resp.status !== 200) return responder.send(`Could not fetch the data,\n${resp.status}: ${resp.message}`);
-            inv = data.invite_url.replace(/ /g, '%20');
-            owners = data.owner_ids.map((o) => `<@!${o}>`);
-        }
+        if (!config.tokens.botspw) return;
+        const user = msg.mentions[0] ? msg.mentions[0] : rawArgs[0].isValidID ? client.users.get(rawArgs[0]) : undefined;
+        if (!user) return responder.send('❌ Something went wrong, make sure it\'s a valid user.');
+        if (user.bot === false) return responder.send('❌ This is not a bot.');
+        const resp = await axios.get(`https://bots.discord.pw/api/bots/${user.id}`, {
+            headers: {
+                'Authorization': config.tokens.botspw,
+                'User-Agent': client.userAgent
+            }
+        });
+        const data = resp.data;
+        if (resp.status !== 200) return responder.send(`Could not fetch the data,\n${resp.status}: ${resp.message}`);
+        const inv = data.invite_url.replace(/ /g, '%20');
+        const owners = data.owner_ids.map((o) => `<@!${o}>`);
         responder.send('', {
             embed: {
                 color: client.utils.getDefaultColor(msg, client),

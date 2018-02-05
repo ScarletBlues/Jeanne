@@ -16,9 +16,9 @@ class Exec extends Command {
         args = args.join(' ');
         if (client.admins.indexOf(msg.author.id) !== -1) {
             exec(args, {maxBuffer: Infinity}, (err, stdout, stderr) => {
-                if (err) return responder.send(`\`\`\`glsl\n${err}\`\`\``);
-                if (stderr) return responder.send(`\`\`\`glsl\n${stderr}\`\`\``);
-                responder.send(`\`\`\`glsl\n${stdout}\`\`\``);
+                if (err) return responder.send(`\`\`\`fix\n${err}\`\`\``);
+                if (stderr) return responder.send(`\`\`\`fix\n${stderr}\`\`\``);
+                responder.send(`\`\`\`fix\n${stdout}\`\`\``);
             });
         } else {
             responder.send('❎ | Only my developer can execute this command.');

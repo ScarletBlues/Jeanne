@@ -40,7 +40,7 @@ class Kick extends Command {
                             if (!results[0].modlogChannel) return;
                             client.createMessage(results[0].modlogChannel, {
                                 embed: {
-                                    color: config.errorColor,
+                                    color: config.colours.red,
                                     author: {name: `${member.tag} (${member.id})`, icon_url: `${member.avatarURL}`},
                                     fields: [
                                         {name: 'Type', value: 'Kick', inline: true},

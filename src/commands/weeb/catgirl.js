@@ -1,6 +1,4 @@
 const {Command} = require('sylphy');
-const reload = require('require-reload');
-const config = reload('../../../config.json');
 const axios = require('axios');
 
 class Catgirl extends Command {
@@ -31,7 +29,7 @@ class Catgirl extends Command {
                 const data = res.data;
                 msg.channel.createMessage({
                     embed: {
-                        color: config.defaultColor,
+                        color: client.utils.getDefaultColor(msg, client),
                         description: `[ImageURL](https://nekos.brussell.me/image/${data.images[0].id})`,
                         image: {
                             url: `https://nekos.brussell.me/image/${data.images[0].id}`
@@ -47,7 +45,7 @@ class Catgirl extends Command {
                 const data = res.data;
                 msg.channel.createMessage({
                     embed: {
-                        color: config.defaultColor,
+                        color: client.utils.getDefaultColor(msg, client),
                         description: `[ImageURL](${data.neko})`,
                         image: {
                             url: data.neko
@@ -72,7 +70,7 @@ class Catgirl extends Command {
                 const data = res.data;
                 msg.channel.createMessage({
                     embed: {
-                        color: config.defaultColor,
+                        color: client.utils.getDefaultColor(msg, client),
                         description: `[ImageURL](https://nekos.brussell.me/image/${data.images[0].id})`,
                         image: {
                             url: `https://nekos.brussell.me/image/${data.images[0].id}`
@@ -88,7 +86,7 @@ class Catgirl extends Command {
                 const data = res.data;
                 msg.channel.createMessage({
                     embed: {
-                        color: config.defaultColor,
+                        color: client.utils.getDefaultColor(msg, client),
                         description: `[ImageURL](${data.neko})`,
                         image: {
                             url: data.neko

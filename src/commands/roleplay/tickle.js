@@ -1,6 +1,4 @@
 const {Command} = require('sylphy');
-const reload = require('require-reload');
-const config = reload('../../../config.json');
 const axios = require('axios');
 const findMember = require('../../utils/utils.js').findMember;
 
@@ -13,7 +11,7 @@ class Tickle extends Command {
         });
     }
 
-    async handle({msg}) {
+    async handle({msg, client}) {
         let args = msg.content.split(' ');
         args.shift();
         args = args.join(' ');
@@ -30,7 +28,7 @@ class Tickle extends Command {
         if (res.data.error) return msg.channel.createMessage(`❎ | Something went wrong while requesting the image.\n\`\`\`${res.data.error}\`\`\``);
         msg.channel.createMessage({
             embed: {
-                color: config.defaultColor,
+                color: client.utils.getDefaultColor(msg, client),
                 title: `${msg.author.nickname ? msg.author.nickname : msg.author.username} tickles ${member.nickname ? member.nickname : member.username}`,
                 image: {
                     url: base_url + res.data.path

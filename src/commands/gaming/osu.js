@@ -1,7 +1,6 @@
 const {Command} = require('sylphy');
-const config = require('../../../config');
 const NodeOsu = require('node-osu');
-const osu = new NodeOsu.Api(config.osuapi, {
+const osu = new NodeOsu.Api(require('../../../config').tokens.osu, {
     notFoundAsError: true,
     completeScores: false
 });

@@ -8,7 +8,7 @@ module.exports = {
     events: {
         guildCreate: 'onGuildCreate'
     },
-    onGuildCreate: (guild, client) => {
+    onGuildCreate: async (guild, client) => {
         const bots = client.guilds.get(guild.id).members.filter(user => user.user.bot).length;
         const total = client.guilds.get(guild.id).memberCount;
         const humans = total - bots;
@@ -31,54 +31,58 @@ module.exports = {
                 });
             });
 
-            client.executeWebhook(config.join_leaveWebhookID, config.join_leaveWebhookToken, {
-                embeds: [{
-                    color: config.defaultColor,
-                    title: 'Joined guild:',
-                    description: `**${guild.name} (${guild.id})**`,
-                    thumbnail: {
-                        url: `${guild.iconURL === null ? '' : ''}${guild.iconURL !== null ? guild.iconURL : ''}`
-                    },
-                    fields: [{
-                        name: 'Owner',
-                        value: `${guild.members.get(guild.ownerID).user.username}#${guild.members.get(guild.ownerID).user.discriminator}\n(${guild.ownerID})`,
-                        inline: true
-                    },
-                        {
-                            name: 'Total members',
-                            value: `${total}`,
+            try {
+                await client.executeWebhook(config.webhooks.guildUpdateID, config.webhooks.guildUpdateToken, {
+                    embeds: [{
+                        color: client.utils.getDefaultColor(client.guilds.get(config.ownerGuilds[0]), client, true),
+                        title: 'Joined guild:',
+                        description: `**${guild.name} (${guild.id})**`,
+                        thumbnail: {
+                            url: `${guild.iconURL === null ? '' : ''}${guild.iconURL !== null ? guild.iconURL : ''}`
+                        },
+                        fields: [{
+                            name: 'Owner',
+                            value: `${guild.members.get(guild.ownerID).user.username}#${guild.members.get(guild.ownerID).user.discriminator}\n(${guild.ownerID})`,
                             inline: true
                         },
-                        {
-                            name: 'Humans',
-                            value: `${humans}, ${utils.round(humanper, 2)}%`,
-                            inline: true
-                        },
-                        {
-                            name: 'Bots',
-                            value: `${bots}, ${utils.round(botper, 2)}%`,
-                            inline: true
-                        },
-                        {
-                            name: 'Emotes',
-                            value: `${guild.emojis.length}`,
-                            inline: true
-                        },
-                        {
-                            name: 'Roles',
-                            value: `${roles}`,
-                            inline: true
-                        },
-                        {
-                            name: 'Created on',
-                            value: `${validate}`,
-                            inline: false
-                        }
-                    ]
-                }],
-                username: `${client.user.username}`,
-                avatarURL: `${client.user.dynamicAvatarURL('png', 2048)}`
-            });
+                            {
+                                name: 'Total members',
+                                value: `${total}`,
+                                inline: true
+                            },
+                            {
+                                name: 'Humans',
+                                value: `${humans}, ${utils.round(humanper, 2)}%`,
+                                inline: true
+                            },
+                            {
+                                name: 'Bots',
+                                value: `${bots}, ${utils.round(botper, 2)}%`,
+                                inline: true
+                            },
+                            {
+                                name: 'Emotes',
+                                value: `${guild.emojis.length}`,
+                                inline: true
+                            },
+                            {
+                                name: 'Roles',
+                                value: `${roles}`,
+                                inline: true
+                            },
+                            {
+                                name: 'Created on',
+                                value: `${validate}`,
+                                inline: false
+                            }
+                        ]
+                    }],
+                    username: `${client.user.username}`,
+                    avatarURL: `${client.user.dynamicAvatarURL('png', 2048)}`
+                });
+            } catch (e) {
+                client.logger.error(client.chalk.red.bold(e));
+            }
         }
     }
 };

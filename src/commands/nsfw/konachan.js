@@ -1,8 +1,6 @@
 const {Command} = require('sylphy');
 const axios = require('axios');
-const reload = require('require-reload');
-const config = reload('../../../config.json');
-const blacklistedWords = reload('../../blacklisted_words.json');
+const blacklistedWords = require('../../blacklisted_words.json');
 
 class Konachan extends Command {
     constructor(...args) {
@@ -14,7 +12,7 @@ class Konachan extends Command {
         });
     }
 
-    async handle({msg}) {
+    async handle({msg, client}) {
         if (msg.channel.nsfw === false) return msg.channel.createMessage('❎ | NSFW is not enabled in this channel, enable NSFW in the channel settings.');
 
         let args = msg.content.split(' ');
@@ -42,7 +40,7 @@ class Konachan extends Command {
         const post = `https://konachan.com/post/show/${res.data[0].id}`;
         msg.channel.createMessage({
             embed: {
-                color: config.defaultColor,
+                color: client.utils.getDefaultColor(msg, client),
                 description: `[View post](${post})\n` +
                 `[View image](${sampleImage})`,
                 image: {

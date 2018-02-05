@@ -1,13 +1,20 @@
-const reload = require('require-reload');
 const fs = require('fs');
 const axios = require('axios');
-let config = reload('../../config.json');
+const config = require('../../config.json');
 const {Logger} = require('sylphy');
 const logger = new Logger();
 const chalk = require('chalk');
-
 const WebSocket = require('ws');
 
+/**
+ *
+ * @param file
+ * @param ext
+ * @param data
+ * @param minSize
+ * @param log
+ * @return {Promise<any>}
+ */
 exports.safeSave = (file, ext, data, minSize = 5, log = true) => {
     return new Promise(async (resolve, reject) => {
         if (!file || !ext || !data)
@@ -42,11 +49,17 @@ exports.safeSave = (file, ext, data, minSize = 5, log = true) => {
     });
 };
 
+/**
+ * Find a user
+ * @param msg {object} The message object
+ * @param str {string} Some id to find the user with
+ * @return {*} Returns the user object if found else returns false
+ */
 exports.findUser = (msg, str) => {
     if (!str || str === '') return false;
     const guild = msg.channel.guild;
     if (!guild) return msg.mentions[0] ? msg.mentions[0] : false;
-    if (/^\d{17,18}/.test(str) || /^<@!?\d{17,18}>/.test(str)) {
+    if (str.isValidID || /^<@!?\d{17,18}>/.test(str)) {
         const member = guild.members.get(/^<@!?\d{17,18}>/.test(str) ? str.replace(/<@!?/, '').replace('>', '') : str);
         return member ? member.user : false;
     } else if (str.length <= 33) {
@@ -59,11 +72,17 @@ exports.findUser = (msg, str) => {
     } else return false;
 };
 
+/**
+ * Find a user's member object for that guild
+ * @param msg {object} The message object
+ * @param str {string} The user's id
+ * @return {*} Returns the member object if found else returns false
+ */
 exports.findMember = (msg, str) => {
     if (!str || str === '') return false;
     const guild = msg.channel.guild;
     if (!guild) return msg.mentions[0] ? msg.mentions[0] : false;
-    if (/^\d{17,18}/.test(str) || /^<@!?\d{17,18}>/.test(str)) {
+    if (str.isValidID || /^<@!?\d{17,18}>/.test(str)) {
         const member = guild.members.get(/^<@!?\d{17,18}>/.test(str) ? str.replace(/<@!?/, '').replace('>', '') : str);
         return member ? member : false;
     } else if (str.length <= 33) {
@@ -76,6 +95,13 @@ exports.findMember = (msg, str) => {
     } else return false;
 };
 
+/**
+ * Update the guild count on bots.discord.pw
+ * @param client {object} The client
+ * @param id {string} The bot's id
+ * @param key {string} The bots.pw api key
+ * @param server_count {number} The bot's guild count
+ */
 exports.updateAbalBots = (client, id, key, server_count) => {
     if (!key || !server_count) return;
     axios.post(`https://bots.discord.pw/api/bots/${id}/stats`, {
@@ -91,6 +117,14 @@ exports.updateAbalBots = (client, id, key, server_count) => {
     }).catch((err) => logger.error(chalk.red.bold(`[ABAL BOT LIST UPDATE ERROR] ${err}\n${JSON.stringify(err.response.data)}`)));
 };
 
+/**
+ * Update the guild/shard count on discordbots.org
+ * @param client {object} The client
+ * @param id {string} The bot's id
+ * @param key {string} The bots.org api key
+ * @param server_count {number} The bot's guild count
+ * @param shard_count {number} The bot's shard count
+ */
 exports.updateDiscordBots = (client, id, key, server_count, shard_count) => {
     if (!key || !server_count) return;
     axios.post(`https://discordbots.org/api/bots/${id}/stats`, {
@@ -106,6 +140,13 @@ exports.updateDiscordBots = (client, id, key, server_count, shard_count) => {
         logger.debug(chalk.blue.bold(`[BOTS .ORG LIST UPDATE] Updated bot server count to ${server_count}`));
     }).catch((err) => logger.error(chalk.red.bold(`[BOTS .ORG LIST UPDATE ERROR] ${err}\n${JSON.stringify(err.response.data)}`)));
 };
+
+/**
+ * Sets the bot's avatar
+ * @param bot {object} The client
+ * @param url {string} The avatar to set
+ * @return {Promise<any>} The result
+ */
 exports.setAvatar = (bot, url) => {
     return new Promise((resolve, reject) => {
         if (bot !== undefined && typeof url === 'string') {
@@ -130,6 +171,11 @@ exports.setAvatar = (bot, url) => {
     });
 };
 
+/**
+ * Format milliseconds to human readable time
+ * @param milliseconds
+ * @return {string}
+ */
 exports.formatTime = (milliseconds) => {
     let daysText = 'days';
     let hoursText = 'hours';
@@ -153,15 +199,11 @@ exports.formatTime = (milliseconds) => {
     return `${days} ${daysText}, ${hours} ${hoursText}, ${minutes} ${minutesText}, and ${seconds} ${secondsText}`;
 };
 
-exports.formatTimeForSpotify = (milliseconds) => {
-    let s = milliseconds / 1000;
-    let seconds = (s % 60).toFixed(0);
-    s /= 60;
-    let minutes = (s % 60).toFixed(0);
-
-    return `${minutes}:${seconds}`;
-};
-
+/**
+ * Formats seconds to human readable time
+ * @param time
+ * @return {string}
+ */
 exports.formatSeconds = (time) => {
     let days = Math.floor((time % 31536000) / 86400);
     let hours = Math.floor(((time % 31536000) % 86400) / 3600);
@@ -174,6 +216,25 @@ exports.formatSeconds = (time) => {
     return `${days} Days, ${hours} Hours, ${minutes} Minutes and ${seconds} Seconds`;
 };
 
+/**
+ * Format the time returned by the spotify command
+ * @param milliseconds
+ * @return {string}
+ */
+exports.formatTimeForSpotify = (milliseconds) => {
+    let s = milliseconds / 1000;
+    let seconds = (s % 60).toFixed(0);
+    s /= 60;
+    let minutes = (s % 60).toFixed(0);
+
+    return `${minutes}:${seconds}`;
+};
+
+/**
+ * Formats the time returned from the youtube commands
+ * @param time
+ * @return {string}
+ */
 exports.formatYTSeconds = (time) => {
     let hoursText = 'hours';
     let minutesText = 'minutes';
@@ -192,23 +253,24 @@ exports.formatYTSeconds = (time) => {
     return `${hours} ${hoursText}, ${minutes} ${minutesText} and ${seconds} ${secondsText}`;
 };
 
-exports.checkForUpdates = () => {
-    let version = ~~(require('../../package.json').version.split('.').join(''));
-    axios.get('https://raw.githubusercontent.com/kurozeroPB/Jeanne/master/package.json')
-        .then((res) => {
-            if (res.status !== 200) {
-                logger.warn(chalk.yellow.bold(`Error checking for updates: ${res.data}`));
-            } else {
-                let latest = ~~(res.data.version.split('.').join(''));
-                if (latest > version) logger.warn(chalk.yellow.bold('[OUT OF DATE] A new version of Jeanne is avalible'));
-            }
-        }).catch((err) => logger.warn(chalk.yellow.bold(`Error checking for updates:\n${err.response.data.status}, ${err.response.data.message}`)));
-};
-
+/**
+ * Gets a random number between the specified min-max
+ * @param min {number} Min number to get from
+ * @param max {number} Max number to get from
+ * @return {number}
+ */
 exports.getRandomInt = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+/**
+ * Sort an array or object however you want
+ * @param obj {object} The stuff to sort
+ * @param sortedBy
+ * @param isNumericSort
+ * @param reverse {boolean}
+ * @return {Array}
+ */
 exports.sortProperties = (obj, sortedBy, isNumericSort, reverse) => {
     sortedBy = sortedBy || 1;
     isNumericSort = isNumericSort || false;
@@ -236,47 +298,60 @@ exports.sortProperties = (obj, sortedBy, isNumericSort, reverse) => {
     return sortable;
 };
 
+/**
+ * Requests song data from listen.moe
+ * @param client {object} The client
+ */
 exports.startMoeWS = (client) => {
-    return new Promise((resolve, reject) => {
-        const ws = new WebSocket('wss://listen.moe/api/v2/socket');
-        ws.on('open', function open() {
-            axios.post('https://listen.moe/api/authenticate', {
-                username: config.listenmoe_username,
-                password: config.listenmoe_password
+    const ws = new WebSocket('wss://listen.moe/api/v2/socket');
+    ws.on('open', async () => {
+        let resp;
+        try {
+            resp = await axios.post('https://listen.moe/api/authenticate', {
+                username: config.listenmoe.username,
+                password: config.listenmoe.password
             }, {
                 headers: {
                     'User-Agent': client.userAgent,
                     'Accept': 'application/json',
                 },
-            }).then((res) => {
-                if (!res.data.success) return reject(res.data.message);
-                const auth = JSON.stringify({
-                    'token': res.data.token
-                });
-                ws.send(auth, {compress: true, binary: false, fin: false, mask: false}, () => {
-                    // Some stuff
-                });
-            }).catch((err) => reject(err));
-        });
-        ws.on('message', function incoming(data) {
-            if (!data) {
-                reject(new Error('No data was returned'));
-            } else {
-                resolve(data);
+            });
+        } catch (error) {
+            throw new Error(error);
+        }
+        if (!resp.data.success) throw new Error(resp.data.message);
+        const auth = JSON.stringify({token: resp.data.token});
+        ws.send(auth, (e) => {
+            if (e) {
+                throw new Error(e);
             }
         });
-        setTimeout(() => {
-            ws.close();
-        }, 5000);
     });
+    ws.on('message', async (data) => {
+        if (!data) {
+            throw new Error('No data was returned');
+        } else {
+            return data;
+        }
+    });
+    setTimeout(() => {
+        ws.close();
+        console.log('[ws] Closing listen.moe websocket');
+    }, 5000);
 };
 
+/**
+ * Executes the error webhook in my private guild
+ * @param bot {object} The client
+ * @param error {Error} The error
+ * @param type {string} The type of "error", can be WARN or ERROR
+ */
 exports.errorWebhook = (bot, error, type) => {
     if (type === 'WARN') {
-        bot.executeWebhook(config.errWebhookID, config.errWebhookToken, {
+        bot.executeWebhook(config.webhooks.errorID, config.webhooks.errorToken, {
             embeds: [{
                 title: 'WARNING',
-                color: config.warnColor,
+                color: config.colours.yellow,
                 description: `**${new Date().toLocaleString()}**\n\n${error}`,
             }],
             username: `${bot.user.username}`,
@@ -285,10 +360,10 @@ exports.errorWebhook = (bot, error, type) => {
             logger.error(chalk.red.bold(err));
         });
     } else if (type === 'ERROR') {
-        bot.executeWebhook(config.errWebhookID, config.errWebhookToken, {
+        bot.executeWebhook(config.webhooks.errorID, config.webhooks.errorToken, {
             embeds: [{
                 title: 'ERROR',
-                color: config.errorColor,
+                color: config.colours.red,
                 description: `**${new Date().toLocaleString()}**\n\n${error.stack ? error.stack : ''}${!error.stack ? error : ''}`,
             }],
             username: `${bot.user ? bot.user.username : 'Jeanne d\'Arc'}`,
@@ -299,17 +374,23 @@ exports.errorWebhook = (bot, error, type) => {
     }
 };
 
+/**
+ * Round a number with the specified precision
+ * @param value {number} The value to round
+ * @param precision {number} The precision to round
+ * @return {number} The rounded value
+ */
 exports.round = (value, precision) => {
     let multiplier = Math.pow(10, precision || 0);
     return Math.round(value * multiplier) / multiplier;
 };
 
 /**
- *
+ * Get the highest role colour if one exits else return 15277667 as defautl colour
  * @param obj {object} The message or guild object depending on if guild is true or false
  * @param client {object} The client object
  * @param guild {boolean} Wether obj is a guild object or not, defaults to false
- * @returns {number} The color
+ * @returns {number} The colour
  */
 exports.getDefaultColor = (obj, client, guild = false) => {
     let user;
@@ -322,6 +403,11 @@ exports.getDefaultColor = (obj, client, guild = false) => {
     } else return 15277667
 };
 
+/**
+ *
+ * @param a {object} The stuff to filter
+ * @returns {object} The filtered object
+ */
 exports.unique = (a) => {
     let prims = {'boolean': {}, 'number': {}, 'string': {}}, objs = [];
     return a.filter(function (item) {
@@ -334,6 +420,13 @@ exports.unique = (a) => {
     });
 };
 
+/**
+ * Checks if the user as all the permissions from the specified array
+ * @param channel {object} The channel object
+ * @param user {object} The user's object
+ * @param perms {array} An array of permissions
+ * @return {boolean}
+ */
 exports.hasPermissions = (channel, user, ...perms) => {
     const member = channel.guild.members.get(user.id);
     for (let perm of perms) {
@@ -341,3 +434,12 @@ exports.hasPermissions = (channel, user, ...perms) => {
     }
     return true;
 };
+
+/**
+ * Probably not best practice but just to make me have to do less later on owo
+ */
+Object.defineProperty(String.prototype, 'isValidID', {
+    get: function () { // Do not make arrow function!
+        return /^\d{17,18}$/.test(this);
+    }
+});

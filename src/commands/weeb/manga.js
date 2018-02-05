@@ -1,6 +1,4 @@
 const {Command} = require('sylphy');
-const reload = require('require-reload');
-const config = reload('../../../config.json');
 const Kitsu = require('kawaii-kitsune');
 const kitsu = new Kitsu();
 
@@ -14,7 +12,7 @@ class Manga extends Command {
         });
     }
 
-    async handle({msg}) {
+    async handle({msg, client}) {
         let args = msg.content.split(' ');
         args.shift();
         args = args.join(' ');
@@ -33,7 +31,7 @@ class Manga extends Command {
 
         msg.channel.createMessage({
             embed: {
-                color: config.defaultColor,
+                color: client.utils.getDefaultColor(msg, client),
                 title: `${manga[0].titles.english ? '' : ''}`,
                 description: `https://kitsu.io/manga/${manga[0].slug}\n\n${manga[0].synopsis}`,
                 thumbnail: {
