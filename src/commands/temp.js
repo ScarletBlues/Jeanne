@@ -5,7 +5,10 @@ class Temp extends Command {
         super(...args, {
             name: 'temp',
             description: 'temp',
-            options: {permissions: ['embedLinks']},
+            options: {
+                permissions: ['embedLinks'],
+                botPermissions: ['attachFiles']
+            },
             cooldown: 30,
             group: 'temp',
             usage: [
@@ -15,7 +18,7 @@ class Temp extends Command {
         });
     }
 
-    async handle(/*{msg, client, rawArgs, logger}, responder*/) {
+    async handle({msg, client, rawArgs, logger}, responder) {
 
     }
 }

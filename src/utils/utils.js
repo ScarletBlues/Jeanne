@@ -257,10 +257,15 @@ exports.formatYTSeconds = (time) => {
  * Gets a random number between the specified min-max
  * @param min {number} Min number to get from
  * @param max {number} Max number to get from
- * @return {number}
+ * @return {number} Return a random number
  */
 exports.getRandomInt = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+    let prev;
+    return function rand() {
+        const num = Math.floor((Math.random() * (max - min + 1)) + min);
+        prev = (num === prev && min !== max) ? rand() : num;
+        return prev;
+    };
 };
 
 /**

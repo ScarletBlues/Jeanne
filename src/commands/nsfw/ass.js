@@ -7,7 +7,10 @@ class Ass extends Command {
             name: 'ass',
             description: 'Sends a random ass pic',
             group: 'nsfw',
-            aliases: ['butt']
+            aliases: ['butt'],
+            options: {
+                botPermissions: ['attachFiles']
+            }
         });
     }
 

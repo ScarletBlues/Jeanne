@@ -1,5 +1,5 @@
 const chalk = require('chalk');
-const games = require('../utils/games.json');
+const games = require('../utils/constants').games;
 
 module.exports = {
     handler(client, firstShardID, lastShardID) {

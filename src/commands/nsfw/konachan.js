@@ -1,6 +1,6 @@
 const {Command} = require('sylphy');
 const axios = require('axios');
-const blacklistedWords = require('../../blacklisted_words.json');
+const blacklistedWords = require('../../utils/constants').blacklistedWords;
 
 class Konachan extends Command {
     constructor(...args) {
