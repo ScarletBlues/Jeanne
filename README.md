@@ -1,11 +1,13 @@
-[![Discord Bots](https://discordbots.org/api/widget/status/237578660708745216.svg?noavatar=true)](https://discordbots.org/bot/237578660708745216)
-[![Maintainability](https://api.codeclimate.com/v1/badges/27e8569bfd75c06c21ac/maintainability)](https://codeclimate.com/github/Chaldea-devs/Jeanne/maintainability)
-[![Discord](https://discordapp.com/api/guilds/240059867744698368/embed.png)](https://discord.gg/p895czC)
-
-[![dependencies](https://david-dm.org/Chaldea-devs/Jeanne/status.svg?style=flat-square)](https://david-dm.org/Chaldea-devs/Jeanne)
-[![devDependencies](https://david-dm.org/Chaldea-devs/Jeanne/dev-status.svg?style=flat-square)](https://david-dm.org/Chaldea-devs/Jeanne?type=dev)
-[![npm](https://img.shields.io/github/release/Chaldea-devs/Jeanne.svg?style=flat-square)](https://github.com/Chaldea-devs/Jeanne/releases)
-[![license](https://img.shields.io/github/license/Chaldea-devs/Jeanne.svg?style=flat-square)](https://choosealicense.com/licenses/gpl-3.0)
+<div align="center">
+  <p>
+    <a href="https://discordbots.org/bot/237578660708745216"><img src="https://discordbots.org/api/widget/status/237578660708745216.svg?noavatar=true" alt="Discord Bots"/></a>
+    <a href="https://codeclimate.com/github/Chaldea-devs/Jeanne/maintainability"><img src="https://api.codeclimate.com/v1/badges/27e8569bfd75c06c21ac/maintainability" alt="Maintainability"/></a>
+    <a href="https://discord.gg/p895czC"><img src="https://discordapp.com/api/guilds/240059867744698368/embed.png" alt="Discord"/></a>
+    <a href="https://www.patreon.com/Kurozero"><img src="https://img.shields.io/badge/donate-patreon-F96854.svg" alt="Patreon" /></a>
+    <a href="https://david-dm.org/Chaldea-devs/Jeanne"><img src="https://david-dm.org/Chaldea-devs/Jeanne/status.svg" alt="dependencies"/></a>
+    <a href="https://choosealicense.com/licenses/gpl-3.0"><img src="https://img.shields.io/github/license/Chaldea-devs/Jeanne.svg" alt="license"/></a>
+  </p>
+</div>
 
 # Jeanne
 This code is the rewrite of Jeanne d'Arc, it is not completed yet and many things are wrong.<br/>
