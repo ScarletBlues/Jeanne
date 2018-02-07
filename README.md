@@ -7,7 +7,6 @@
     <a href="https://david-dm.org/Chaldea-devs/Jeanne"><img src="https://david-dm.org/Chaldea-devs/Jeanne/status.svg" alt="dependencies"/></a>
     <a href="https://choosealicense.com/licenses/gpl-3.0"><img src="https://img.shields.io/github/license/Chaldea-devs/Jeanne.svg" alt="license"/></a>
   </p>
-</div>
 
 # Jeanne
 This code is the rewrite of Jeanne d'Arc, it is not completed yet and many things are wrong.<br/>
@@ -33,3 +32,4 @@ Questions?
 Join the Jeanne server:
 
 [![Discord](https://discordapp.com/api/guilds/240059867744698368/embed.png?style=banner2)](https://discord.gg/p895czC)
+</div>
