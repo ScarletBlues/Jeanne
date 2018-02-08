@@ -22,7 +22,7 @@ class Gif extends Command {
             resp = await axios.get('https://api.giphy.com/v1/gifs/random', {
                 headers: {'User-Agent': client.userAgent},
                 params: {
-                    'api_key': 'dc6zaTOxFJmzC',
+                    'api_key': 'dc6zaTOxFJmzC', // public api key
                     'tag': rawArgs[0] ? rawArgs[0] : '',
                     'fmt': 'json'
                 }

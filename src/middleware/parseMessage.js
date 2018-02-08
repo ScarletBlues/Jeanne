@@ -6,8 +6,8 @@ module.exports = {
         if (!msg.content.startsWith(prefix)) return Promise.resolve();
         const permCheck = client.utils.hasPermissions(msg.channel, client.user, ['sendMessages']);
         if (!permCheck) return Promise.resolve();
-        const rawArgs = msg.content.substring(prefix.length).split(' ');
-        const trigger = container.trigger = rawArgs[0].toLowerCase();
+        const rawCmd = msg.content.substring(prefix.length).split(' ');
+        const trigger = container.trigger = rawCmd[0].toLowerCase();
 
         const cmd = commands.find((cmd) => {
             if (cmd.name === trigger) {
@@ -44,7 +44,10 @@ module.exports = {
         client.commands = commands;
         container.isPrivate = !msg.channel.guild;
         container.isCommand = commands.has(trigger);
-        container.rawArgs = rawArgs.slice(1).filter(v => !!v).join(' ').split(/ ?\| ?/g);
+        let rawArgs = msg.content.split(' ');
+        rawArgs.shift();
+        rawArgs = rawArgs.join(' ');
+        container.rawArgs = rawArgs.split(/ ?\| ?/g);
         if (container.isCommand) client.commandsProcessed++;
         return Promise.resolve(container)
     }
