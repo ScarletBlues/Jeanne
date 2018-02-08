@@ -125,7 +125,7 @@ function initEvent(name) { // Setup the event listener for each loaded event.
             events['voiceChannelSwitch'].handler(client, member, newChannel, oldChannel);
         });
     } else {
-        client.on(name, function events() { // MUST NOT BE ANNON/ARROW FUNCTION
+        client.on(name, function e() { // MUST NOT BE ANNON/ARROW FUNCTION
             events[name](client, settingsManager, ...arguments);
         });
     }

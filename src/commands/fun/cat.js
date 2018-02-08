@@ -24,7 +24,7 @@ class Cat extends Command {
                 responseType: 'arraybuffer'
             });
         } catch (e) {
-            logger.error(client.chalk.red.bold(e));
+            return logger.error(client.chalk.red.bold(e));
         }
         const fileType = cat.headers['content-type'].replace('image/', '');
         responder.send('', {

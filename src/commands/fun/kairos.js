@@ -19,14 +19,13 @@ class Kairos extends Command {
     }
 
     async handle({msg, client, rawArgs, logger}, responder) {
-        const regex = new RegExp(/^https?:\/\/.*\.(?:png|jpg)$/i);
+        const regex = new RegExp(/^https?:\/\/.*\.(?:png|jpe?g)$/i);
         const url = rawArgs[0];
         if (url.match(regex)) {
             try {
-                const resp = await axios({
-                    method: 'post',
-                    url: 'https://api.kairos.com/detect',
-                    data: JSON.stringify({'image': url}),
+                const resp = await axios.post('https://api.kairos.com/detect', {
+                    'image': url
+                }, {
                     headers: {
                         'User-Agent': client.userAgent,
                         'Content-Type': 'application/json',
@@ -59,6 +58,8 @@ class Kairos extends Command {
             } catch (e) {
                 logger.error(client.chalk.red.bold(e));
             }
+        } else {
+            responder.send('It seems like you provided an invalid image url, note that only png, jpg and jpeg are accepted');
         }
     }
 }
