@@ -606,3 +606,20 @@ exports.puns = [
     'Australians have domesticated the trolls, and use them to propel cars. So when a car gets low on energy, you take it to a pet-troll station.',
     'Is there a cure for Tasmania?'
 ];
+
+// Reverse
+exports.opposites = {
+    "b": "d",
+    "d": "b",
+    "z": "s",
+    "(": ")",
+    ")": "(",
+    "[": "]",
+    "]": "[",
+    "{": "}",
+    "}": "{",
+    "<": ">",
+    ">": "<",
+    "/": "\\",
+    "\\": "/"
+};

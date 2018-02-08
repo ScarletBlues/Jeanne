@@ -448,3 +448,29 @@ Object.defineProperty(String.prototype, 'isValidID', {
         return /^\d{17,18}$/.test(this);
     }
 });
+
+// Reverse a string of ascii art
+const opposites = require('../utils/constants').opposites;
+exports.reverse = (art) => {
+    art = art.replace('\r\n', '\n')
+        .split('\n');
+
+    const maxLineLen = art.reduce((max, line) => {
+        return Math.max(line.length, max);
+    }, 0);
+    art = art.map((line) => {
+        const pad = (new Array(1 + maxLineLen - line.length)).join(' ');
+        const art = line + pad;
+        let rev = '';
+        for (let i = art.length - 1; i >= 0; --i) {
+            if (opposites.hasOwnProperty(art[i])) {
+                rev += opposites[art[i]];
+            } else {
+                rev += art[i];
+            }
+        }
+        line = rev;
+        return line.replace(/\s\+$/, '');
+    }).join('\n');
+    return art;
+};
