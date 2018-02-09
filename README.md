@@ -2,6 +2,9 @@
   <p>
     <a href="https://discordbots.org/bot/237578660708745216"><img src="https://discordbots.org/api/widget/status/237578660708745216.svg?noavatar=true" alt="Discord Bots"/></a>
     <a href="https://codeclimate.com/github/Chaldea-devs/Jeanne/maintainability"><img src="https://api.codeclimate.com/v1/badges/27e8569bfd75c06c21ac/maintainability" alt="Maintainability"/></a>
+    <a class="badge-align" href="https://www.codacy.com/app/KurozeroPB/Jeanne?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Chaldea-devs/Jeanne&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/a790ce502f074abaaf4c2be4524279c5"/></a>
+  </p>
+  <p>
     <a href="https://discord.gg/p895czC"><img src="https://discordapp.com/api/guilds/240059867744698368/embed.png" alt="Discord"/></a>
     <a href="https://www.patreon.com/Kurozero"><img src="https://img.shields.io/badge/donate-patreon-F96854.svg" alt="Patreon" /></a>
     <a href="https://david-dm.org/Chaldea-devs/Jeanne"><img src="https://david-dm.org/Chaldea-devs/Jeanne/status.svg" alt="dependencies"/></a>
