@@ -6,6 +6,7 @@ const chalk = require('chalk');
 const path = require('path');
 const moment = require('moment');
 const {Crystal} = require('sylphy');
+global.Promise = require('bluebird');
 
 require('longjohn');
 require('dotenv-safe').config({

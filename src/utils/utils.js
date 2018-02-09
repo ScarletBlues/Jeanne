@@ -4,7 +4,7 @@ const config = require('../../config.json');
 const {Logger} = require('sylphy');
 const logger = new Logger();
 const chalk = require('chalk');
-const WebSocket = require('ws');
+const opposites = require('../utils/constants').opposites;
 
 /**
  *
@@ -51,8 +51,8 @@ exports.safeSave = (file, ext, data, minSize = 5, log = true) => {
 
 /**
  * Find a user
- * @param msg {object} The message object
- * @param str {string} Some id to find the user with
+ * @param {Object} msg - The message object
+ * @param {String} str - Some id to find the user with
  * @return {*} Returns the user object if found else returns false
  */
 exports.findUser = (msg, str) => {
@@ -74,8 +74,8 @@ exports.findUser = (msg, str) => {
 
 /**
  * Find a user's member object for that guild
- * @param msg {object} The message object
- * @param str {string} The user's id
+ * @param {Object} msg - The message object
+ * @param {String} str - The user's id
  * @return {*} Returns the member object if found else returns false
  */
 exports.findMember = (msg, str) => {
@@ -97,10 +97,10 @@ exports.findMember = (msg, str) => {
 
 /**
  * Update the guild count on bots.discord.pw
- * @param client {object} The client
- * @param id {string} The bot's id
- * @param key {string} The bots.pw api key
- * @param server_count {number} The bot's guild count
+ * @param {Object} client - The client
+ * @param {String} id - The bot's id
+ * @param {String} key - The bots.pw api key
+ * @param {Number} server_count - The bot's guild count
  */
 exports.updateAbalBots = (client, id, key, server_count) => {
     if (!key || !server_count) return;
@@ -119,11 +119,11 @@ exports.updateAbalBots = (client, id, key, server_count) => {
 
 /**
  * Update the guild/shard count on discordbots.org
- * @param client {object} The client
- * @param id {string} The bot's id
- * @param key {string} The bots.org api key
- * @param server_count {number} The bot's guild count
- * @param shard_count {number} The bot's shard count
+ * @param {Object} client - The bot client
+ * @param {String} id - The bot's id
+ * @param {String} key - The bots.org api key
+ * @param {Number} server_count - The bot's guild count
+ * @param {Number} shard_count - The bot's shard count
  */
 exports.updateDiscordBots = (client, id, key, server_count, shard_count) => {
     if (!key || !server_count) return;
@@ -143,8 +143,8 @@ exports.updateDiscordBots = (client, id, key, server_count, shard_count) => {
 
 /**
  * Sets the bot's avatar
- * @param bot {object} The client
- * @param url {string} The avatar to set
+ * @param {Object} bot - The bot client
+ * @param {String} url - The avatar to set
  * @return {Promise<any>} The result
  */
 exports.setAvatar = (bot, url) => {
@@ -173,8 +173,8 @@ exports.setAvatar = (bot, url) => {
 
 /**
  * Format milliseconds to human readable time
- * @param milliseconds
- * @return {string}
+ * @param {Number} milliseconds - The number to format
+ * @return {String}
  */
 exports.formatTime = (milliseconds) => {
     let daysText = 'days';
@@ -201,8 +201,8 @@ exports.formatTime = (milliseconds) => {
 
 /**
  * Formats seconds to human readable time
- * @param time
- * @return {string}
+ * @param {Number} time - The number to format
+ * @return {String}
  */
 exports.formatSeconds = (time) => {
     let days = Math.floor((time % 31536000) / 86400);
@@ -218,8 +218,8 @@ exports.formatSeconds = (time) => {
 
 /**
  * Format the time returned by the spotify command
- * @param milliseconds
- * @return {string}
+ * @param {Number} milliseconds - The number to format
+ * @return {String}
  */
 exports.formatTimeForSpotify = (milliseconds) => {
     let s = milliseconds / 1000;
@@ -232,8 +232,8 @@ exports.formatTimeForSpotify = (milliseconds) => {
 
 /**
  * Formats the time returned from the youtube commands
- * @param time
- * @return {string}
+ * @param {Number} time - The number to format
+ * @return {String}
  */
 exports.formatYTSeconds = (time) => {
     let hoursText = 'hours';
@@ -255,9 +255,9 @@ exports.formatYTSeconds = (time) => {
 
 /**
  * Gets a random number between the specified min-max
- * @param min {number} Min number to get from
- * @param max {number} Max number to get from
- * @return {number} Return a random number
+ * @param {Number} min - Min number to get from
+ * @param {Number} max - Max number to get from
+ * @return {Number} Return a random number
  */
 exports.getRandomInt = (min, max) => {
     let prev;
@@ -270,10 +270,10 @@ exports.getRandomInt = (min, max) => {
 
 /**
  * Sort an array or object however you want
- * @param obj {object} The stuff to sort
+ * @param {Object} obj - The stuff to sort
  * @param sortedBy
  * @param isNumericSort
- * @param reverse {boolean}
+ * @param {Boolean} reverse
  * @return {Array}
  */
 exports.sortProperties = (obj, sortedBy, isNumericSort, reverse) => {
@@ -304,52 +304,10 @@ exports.sortProperties = (obj, sortedBy, isNumericSort, reverse) => {
 };
 
 /**
- * Requests song data from listen.moe
- * @param client {object} The client
- */
-exports.startMoeWS = (client) => {
-    const ws = new WebSocket('wss://listen.moe/api/v2/socket');
-    ws.on('open', async () => {
-        let resp;
-        try {
-            resp = await axios.post('https://listen.moe/api/authenticate', {
-                username: config.listenmoe.username,
-                password: config.listenmoe.password
-            }, {
-                headers: {
-                    'User-Agent': client.userAgent,
-                    'Accept': 'application/json',
-                },
-            });
-        } catch (error) {
-            throw new Error(error);
-        }
-        if (!resp.data.success) throw new Error(resp.data.message);
-        const auth = JSON.stringify({token: resp.data.token});
-        ws.send(auth, (e) => {
-            if (e) {
-                throw new Error(e);
-            }
-        });
-    });
-    ws.on('message', async (data) => {
-        if (!data) {
-            throw new Error('No data was returned');
-        } else {
-            return data;
-        }
-    });
-    setTimeout(() => {
-        ws.close();
-        console.log('[ws] Closing listen.moe websocket');
-    }, 5000);
-};
-
-/**
  * Executes the error webhook in my private guild
- * @param bot {object} The client
- * @param error {Error} The error
- * @param type {string} The type of "error", can be WARN or ERROR
+ * @param {Object} bot - The bot client
+ * @param {Error} error - The error to handle
+ * @param {String} type - The type of "error", can be WARN or ERROR
  */
 exports.errorWebhook = (bot, error, type) => {
     if (type === 'WARN') {
@@ -381,9 +339,9 @@ exports.errorWebhook = (bot, error, type) => {
 
 /**
  * Round a number with the specified precision
- * @param value {number} The value to round
- * @param precision {number} The precision to round
- * @return {number} The rounded value
+ * @param {Number} value - The value to round
+ * @param {Number} precision - The precision to round
+ * @return {Number} The rounded value
  */
 exports.round = (value, precision) => {
     let multiplier = Math.pow(10, precision || 0);
@@ -392,10 +350,10 @@ exports.round = (value, precision) => {
 
 /**
  * Get the highest role colour if one exits else return 15277667 as defautl colour
- * @param obj {object} The message or guild object depending on if guild is true or false
- * @param client {object} The client object
- * @param guild {boolean} Wether obj is a guild object or not, defaults to false
- * @returns {number} The colour
+ * @param {Object} obj - The message or guild object depending on if guild is true or false
+ * @param {Object} client - The client object
+ * @param {Boolean} guild - Wether obj is a guild object or not, defaults to false
+ * @returns {Number} The colour
  */
 exports.getDefaultColor = (obj, client, guild = false) => {
     let user;
@@ -410,8 +368,8 @@ exports.getDefaultColor = (obj, client, guild = false) => {
 
 /**
  *
- * @param a {object} The stuff to filter
- * @returns {object} The filtered object
+ * @param {Object} a - The stuff to filter
+ * @returns {Object} The filtered object
  */
 exports.unique = (a) => {
     let prims = {'boolean': {}, 'number': {}, 'string': {}}, objs = [];
@@ -427,10 +385,10 @@ exports.unique = (a) => {
 
 /**
  * Checks if the user as all the permissions from the specified array
- * @param channel {object} The channel object
- * @param user {object} The user's object
- * @param perms {array} An array of permissions
- * @return {boolean}
+ * @param {Object} channel - The channel object
+ * @param {Object} user - The user's object
+ * @param {Array} perms - An array of permissions
+ * @return {Boolean}
  */
 exports.hasPermissions = (channel, user, ...perms) => {
     const member = channel.guild.members.get(user.id);
@@ -449,16 +407,19 @@ Object.defineProperty(String.prototype, 'isValidID', {
     }
 });
 
-// Reverse a string of ascii art
-const opposites = require('../utils/constants').opposites;
+/**
+ * Reverse a string of ascii art
+ * @param {String} art - The string to reverse
+ * @return {*}
+ */
 exports.reverse = (art) => {
-    art = art.replace('\r\n', '\n')
+    let newArt = art.replace('\r\n', '\n')
         .split('\n');
 
-    const maxLineLen = art.reduce((max, line) => {
+    const maxLineLen = newArt.reduce((max, line) => {
         return Math.max(line.length, max);
     }, 0);
-    art = art.map((line) => {
+    newArt = newArt.map((line) => {
         const pad = (new Array(1 + maxLineLen - line.length)).join(' ');
         const art = line + pad;
         let rev = '';
@@ -472,5 +433,5 @@ exports.reverse = (art) => {
         line = rev;
         return line.replace(/\s\+$/, '');
     }).join('\n');
-    return art;
+    return newArt;
 };
