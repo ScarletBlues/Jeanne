@@ -2,6 +2,8 @@ const reload = require('require-reload')(require);
 const chalk = require('chalk');
 const {Logger} = require('sylphy');
 const logger = new Logger();
+const {stopMoe} = require('./listenmoe');
+const {CloseCodes} = require('listenmoe.js');
 let utils = require('./utils.js');
 let genericSettings = reload('../db/genericSettings.json');
 let updateGeneric = false;
@@ -14,7 +16,13 @@ setInterval(() => {
 }, 20000);
 
 function handleShutdown() {
-    return Promise.all([utils.safeSave('db/genericSettings', '.json', JSON.stringify(genericSettings))]);
+    return new Promise((resolve, reject) => {
+        utils.safeSave('db/genericSettings', '.json', JSON.stringify(genericSettings))
+            .then(() => {
+                stopMoe(CloseCodes.DISCONNECT);
+                resolve();
+            }).catch((e) => reject(e));
+    });
 }
 
 /////////// WELCOME MESSAGES ///////////

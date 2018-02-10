@@ -440,6 +440,13 @@ leetscript@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/leetscript/-/leetscript-1.1.0.tgz#25c2c48dce49b6742d1209a6929ab70715a57cee"
 
+listenmoe.js@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/listenmoe.js/-/listenmoe.js-0.0.2.tgz#1e40fdf571cfc1b32c887a4c8c751165065f1280"
+  dependencies:
+    uws "^9.14.0"
+    ws "^4.0.0"
+
 lodash@^4.13.1:
   version "4.17.5"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
@@ -803,6 +810,10 @@ util-deprecate@~1.0.1:
 uuid@^3.1.0:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.2.1.tgz#12c528bb9d58d0b9265d9a2f6f0fe8be17ff1f14"
+
+uws@^9.14.0:
+  version "9.14.0"
+  resolved "https://registry.yarnpkg.com/uws/-/uws-9.14.0.tgz#fac8386befc33a7a3705cbd58dc47b430ca4dd95"
 
 verror@1.10.0:
   version "1.10.0"

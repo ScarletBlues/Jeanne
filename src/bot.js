@@ -9,6 +9,7 @@ const winston = require('winston');
 const moment = require('moment');
 const {Client} = require('sylphy');
 const mysql = require('mysql');
+const {startMoe} = require('./utils/listenmoe');
 const fs = require('fs');
 const utils = require('./utils/utils.js');
 const settingsManager = require('./utils/settingsManager');
@@ -134,6 +135,7 @@ function initEvent(name) { // Setup the event listener for each loaded event.
 function login() {
     client.logger.info(chalk.green.bold('Logging in...'));
     client.run().catch((err) => client.logger.error(chalk.red.bold(`[LOGIN ERROR] ${err}`)));
+    startMoe(logger, chalk);
 }
 
 client.on('channelDelete', (channel) => {
@@ -178,7 +180,7 @@ process.on('SIGINT', () => {
     client.disconnect({reconnect: false});
     settingsManager.handleShutdown().then(() => {
         process.exit(0);
-    });
+    }).catch(() => process.exit(0));
     setTimeout(() => {
         process.exit(0);
     }, 5000);
