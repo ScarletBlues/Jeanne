@@ -3,7 +3,6 @@ const chalk = require('chalk');
 const {Logger} = require('sylphy');
 const logger = new Logger();
 const {stopMoe} = require('./listenmoe');
-const {CloseCodes} = require('listenmoe.js');
 let utils = require('./utils.js');
 let genericSettings = reload('../db/genericSettings.json');
 let updateGeneric = false;
@@ -19,7 +18,7 @@ function handleShutdown() {
     return new Promise((resolve, reject) => {
         utils.safeSave('db/genericSettings', '.json', JSON.stringify(genericSettings))
             .then(() => {
-                stopMoe(CloseCodes.DISCONNECT);
+                stopMoe();
                 resolve();
             }).catch((e) => reject(e));
     });

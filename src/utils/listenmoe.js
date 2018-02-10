@@ -14,8 +14,8 @@ exports.startMoe = (logger, chalk) => {
     });
 };
 
-exports.stopMoe = (code) => {
-    moe.close(code);
+exports.stopMoe = () => {
+    moe.disconnect();
 };
 
 exports.currentTrack = moe.getCurrentTrack();
