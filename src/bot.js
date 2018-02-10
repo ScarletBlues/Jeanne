@@ -180,7 +180,10 @@ process.on('SIGINT', () => {
     client.disconnect({reconnect: false});
     settingsManager.handleShutdown().then(() => {
         process.exit(0);
-    }).catch(() => process.exit(0));
+    }).catch((e) => {
+        logger.error(chalk.red.bold(e));
+        process.exit(0);
+    });
     setTimeout(() => {
         process.exit(0);
     }, 5000);
