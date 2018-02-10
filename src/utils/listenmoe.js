@@ -10,7 +10,7 @@ exports.startMoe = (logger, chalk) => {
         logger.info(chalk.blue.bold('[MOE] WebSocket connection closed'));
     });
     moe.on('error', (error) => { // Handle any thrown errors
-        logger.error(chalk.red.bold(`[MOE] ${error}`));
+        logger.error(chalk.red.bold(`[MOE] ${error.message}`));
     });
 };
 

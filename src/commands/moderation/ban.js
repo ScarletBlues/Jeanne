@@ -18,7 +18,7 @@ class Ban extends Command {
 
     async handle({msg, client, rawArgs, logger}, responder) {
         const member = client.utils.findMember(msg, rawArgs[0]);
-        if (!member) return responder.send(`Oops, it seems like I cound't find a member with \`${rawArgs}\`\nPlease specify a name, ID or mention the user.`);
+        if (!member) return responder.send(`Oops, it seems like I cound't find a member with \`${rawArgs[0]}\`\nPlease specify a name, ID or mention the user.`);
         let reason;
         if (!rawArgs[1]) reason = 'No reason was provided';
         else reason = rawArgs[1];

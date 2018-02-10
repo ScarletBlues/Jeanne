@@ -49,6 +49,21 @@ module.exports = {
         rawArgs = rawArgs.join(' ');
         container.rawArgs = rawArgs.split(/ ?\| ?/g);
         if (container.isCommand) client.commandsProcessed++;
+        if (cmd && cmd.usage && cmd.usage.length >= 1) {
+            if (!container.rawArgs[1] && cmd.usage[1] && cmd.usage[1].optional === false) {
+                msg.channel.createMessage('This command requires atleast 2 argument but less were given.\n' +
+                    `Please use \`${prefix}help ${cmd.name}\` to see how this command works.`).catch(() => {
+                    return Promise.resolve()
+                });
+                return Promise.resolve();
+            } else if (!container.rawArgs[0] && cmd.usage[0].optional === false) {
+                msg.channel.createMessage('This command requires atleast 1 argument but 0 were given.\n' +
+                    `Please use \`${prefix}help ${cmd.name}\` to see how this command works.`).catch(() => {
+                    return Promise.resolve()
+                });
+                return Promise.resolve();
+            }
+        }
         return Promise.resolve(container)
     }
 };

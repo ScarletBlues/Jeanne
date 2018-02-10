@@ -435,3 +435,23 @@ exports.reverse = (art) => {
     }).join('\n');
     return newArt;
 };
+
+/**
+ * Get the YouTube video ID from a url or string.
+ * Original code from https://github.com/remarkablemark/youtube-video-id
+ * @param  {String} string - The url or string.
+ * @return {Promise<String>} - The video ID.
+ */
+exports.getYouTubeVideoId = (string) => {
+    const regex = /(youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/;
+    return new Promise((resolve, reject) => {
+        if (typeof string !== 'string') {
+            return reject(new TypeError('First argument must be a string.'));
+        }
+        const match = string.match(regex);
+        if (match && match.length > 1) {
+            return resolve(match[2]);
+        }
+        return resolve(string);
+    });
+};

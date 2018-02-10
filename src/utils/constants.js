@@ -609,17 +609,75 @@ exports.puns = [
 
 // Reverse
 exports.opposites = {
-    "b": "d",
-    "d": "b",
-    "z": "s",
-    "(": ")",
-    ")": "(",
-    "[": "]",
-    "]": "[",
-    "{": "}",
-    "}": "{",
-    "<": ">",
-    ">": "<",
-    "/": "\\",
-    "\\": "/"
+    'b': 'd',
+    'd': 'b',
+    'z': 's',
+    '(': ')',
+    ')': '(',
+    '[': ']',
+    ']': '[',
+    '{': '}',
+    '}': '{',
+    '<': '>',
+    '>': '<',
+    '/': '\\',
+    '\\': '/'
 };
+
+// rps
+exports.rps = [
+    'rock',
+    'paper',
+    'scissors'
+];
+
+// spin slots
+exports.slots = [
+    ':apple:',
+    ':pear:',
+    ':tangerine:',
+    ':lemon:',
+    ':banana:',
+    ':watermelon:',
+    ':grapes:',
+    ':strawberry:',
+    ':cherries:',
+    ':peach:',
+    ':cookie:'
+];
+
+// Throw
+exports.emotes = [
+    ':trophy:',
+    ':blue_car:',
+    ':knife:',
+    ':wrench:',
+    ':tv:',
+    ':poop:',
+    ':basketball:',
+    ':hammer:',
+    ':paperclip:',
+    ':scissors:',
+    ':key:',
+    ':syringe:'
+];
+exports.receiver = [
+    'You lil cunt',
+    'Whyy!!',
+    'Please don\'t do that again',
+    'Go away...',
+    'Not again >.>',
+    'JESUS, why?',
+    'common bruh',
+    'fek yuu'
+];
+exports.thrower = [
+    'Hehe :stuck_out_tongue:',
+    'Cus I can!',
+    'Ohh I will hehe',
+    'tchh',
+    'sowwy bby',
+    ':yum:',
+    'u wot',
+    'Hm luv ya 2'
+];
