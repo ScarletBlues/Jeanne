@@ -19,16 +19,51 @@ class Rps extends Command {
 
     async handle({msg, client, rawArgs}, responder) {
         if (!rawArgs[0]) return responder.send('Please choose rock, paper or scissors.');
-        const response = rps[~~(Math.random() * rps.length)];
-        const choice = rawArgs[0].toLowerCase();
+        const choice = rps[~~(Math.random() * rps.length)];
+        const userChoice = rawArgs[0].toLowerCase();
         let message = '';
-        if (choice === response) message = `You: ${choice}\nJeanne d'Arc: ${response}\nRip it's a tied game...`;
-        if (choice === 'rock' && response === 'scissors') message = 'You: rock\nJeanne d\'Arc: scissors\nRock beats scissors, you win';
-        if (choice === 'rock' && response === 'paper') message = 'You: rock\nJeanne d\'Arc: paper\nPaper beats rock, Jeanne d\'Arc wins';
-        if (choice === 'paper' && response === 'rock') message = 'You: paper\nJeanne d\'Arc: rock\nPaper beats rock, you win';
-        if (choice === 'paper' && response === 'scissors') message = 'You: paper\nJeanne d\'Arc: scissors\nScissors beats paper, Jeanne d\'Arc wins';
-        if (choice === 'scissors' && response === 'paper') message = 'You: scissors\nJeanne d\'Arc: paper\nScissor beats paper, you win';
-        if (choice === 'scissors' && response === 'rock') message = 'You: scissors\nJeanne d\'Arc: rock\nRock beats scissors, Jeanne d\'Arc wins';
+        if (choice === userChoice) {
+            message = `You chose: \`${userChoice}\`\nI choose: \`${choice}\`\nRip it's a tied game...`;
+            return responder.send('', {
+                embed: {
+                    color: client.utils.getDefaultColor(msg, client),
+                    description: message
+                }
+            });
+        }
+
+        switch (choice) {
+            case 'rock':
+                switch (userChoice) {
+                    case 'paper':
+                        message = `You chose: \`${userChoice}\`\nI choose: \`${choice}\`\nYou won, goodjob!`;
+                        break;
+                    case 'scissors':
+                        message = `You chose: \`${userChoice}\`\nI choose: \`${choice}\`\nI win yaay!`;
+                        break;
+                }
+                break;
+            case 'paper':
+                switch (userChoice) {
+                    case 'rock':
+                        message = `You chose: \`${userChoice}\`\nI choose: \`${choice}\`\nI win yaay!`;
+                        break;
+                    case 'scissors':
+                        message = `You chose: \`${userChoice}\`\nI choose: \`${choice}\`\nYou won, goodjob!`;
+                        break;
+                }
+                break;
+            case 'scissors':
+                switch (userChoice) {
+                    case 'rock':
+                        message = `You chose: \`${userChoice}\`\nI choose: \`${choice}\`\nYou won, goodjob!`;
+                        break;
+                    case 'paper':
+                        message = `You chose: \`${userChoice}\`\nI choose: \`${choice}\`\nI win yaay!`;
+                        break;
+                }
+                break;
+        }
         responder.send('', {
             embed: {
                 color: client.utils.getDefaultColor(msg, client),
