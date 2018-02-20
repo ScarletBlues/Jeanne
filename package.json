@@ -17,11 +17,11 @@
   },
   "homepage": "https://github.com/kurozeropb/jeanne#readme",
   "dependencies": {
-    "axios": "^0.17.0",
+    "axios": "^0.18.0",
     "bluebird": "^3.5.1",
     "chalk": "^2.3.0",
     "cheerio": "^1.0.0-rc.2",
-    "dotenv-safe": "^4.0.3",
+    "dotenv-safe": "^5.0.0",
     "eris": "github:abalabahaha/eris#dev",
     "eris-additions": "github:minemidnight/eris-additions#master",
     "get-image-colors": "^1.8.1",
