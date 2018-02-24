@@ -1,6 +1,8 @@
 const {Command} = require('sylphy');
 const config = require('../../../config');
 const API = require('lol-riot-api-module');
+const utils = require('../../utils/utils');
+const chalk = require('chalk');
 
 class League extends Command {
     constructor(...args) {
@@ -25,11 +27,11 @@ class League extends Command {
         const user = rawArgs[1];
         const api = new API({key: config.tokens.league, region: region});
         api.getSummoner({name: user}, (e, data) => {
-            if (e) return logger.error(client.chalk.red.bold(e));
+            if (e) return logger.error(chalk.red.bold(e));
             const date = new Date(data.revisionDate);
             responder.send('More data comming soon™', {
                 embed: {
-                    color: client.utils.getDefaultColor(msg, client),
+                    color: utils.getDefaultColor(msg, client),
                     title: `Info of ${data.name}`,
                     description: `ID: ${data.id}`,
                     fields: [

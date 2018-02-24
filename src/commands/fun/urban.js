@@ -1,5 +1,7 @@
 const {Command} = require('sylphy');
 const urban = require('urban.js');
+const utils = require('../../utils/utils');
+const chalk = require('chalk');
 
 class Urban extends Command {
     constructor(...args) {
@@ -25,11 +27,11 @@ class Urban extends Command {
                 def = await urban.random(rawArgs[0]);
             }
         } catch (e) {
-            return logger.error(client.chalk.red.bold(e));
+            return logger.error(chalk.red.bold(e));
         }
         responder.send('', {
             embed: {
-                color: client.utils.getDefaultColor(msg, client),
+                color: utils.getDefaultColor(msg, client),
                 title: def.word,
                 description: def.definition,
                 url: def.urbanURL,

@@ -1,5 +1,7 @@
 const {Command} = require('sylphy');
 const Reddit = require("nraw");
+const utils = require('../../utils/utils');
+const chalk = require('chalk');
 
 class RedditCmd extends Command {
     constructor(...args) {
@@ -22,7 +24,7 @@ class RedditCmd extends Command {
         try {
             data = await reddit.subreddit(rawArgs[0]).exec();
         } catch (e) {
-            return logger.error(client.chalk.red.bold(e));
+            return logger.error(chalk.red.bold(e));
         }
         if (typeof data === 'object' && data[1]) {
             posts = data[0].data.children;
@@ -34,7 +36,7 @@ class RedditCmd extends Command {
         if (post.data.over_18 && !msg.channel.nsfw) return responder.send('Found a post that was marked NSFW by reddit, try again in an NSFW channel.');
         responder.send('', {
             embed: {
-                color: client.utils.getDefaultColor(msg, client),
+                color: utils.getDefaultColor(msg, client),
                 title: `+${post.data.score} ${post.data.title}`,
                 description: `[View image](${post.data.url})\n[View post](https://www.reddit.com${post.data.permalink})`,
                 image: {

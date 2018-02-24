@@ -1,4 +1,5 @@
 const {Command} = require('sylphy');
+const utils = require('../../utils/utils');
 
 const RESPONSES = [
     'pong',
@@ -19,22 +20,18 @@ class Ping extends Command {
         });
     }
 
-    async handle({msg, client}) {
+    async handle({msg, client}, responder) {
         const choice = RESPONSES[~~(Math.random() * RESPONSES.length)];
-        const m = await msg.channel.createMessage({
+        const m = await responder.send('', {
             embed: {
-                color: client.utils.getDefaultColor(msg, client),
-                author: {
-                    name: `${choice}`,
-                }
+                color: utils.getDefaultColor(msg, client),
+                author: {name: choice}
             }
         });
         m.edit({
             embed: {
-                color: client.utils.getDefaultColor(msg, client),
-                author: {
-                    name: `${choice}`,
-                },
+                color: utils.getDefaultColor(msg, client),
+                author: {name: choice},
                 description: `Took me ${m.timestamp - msg.timestamp}ms`
             }
         });

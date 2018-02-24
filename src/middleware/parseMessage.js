@@ -1,10 +1,12 @@
+const utils = require('../utils/utils');
+
 module.exports = {
     priority: 2,
-    process: container => {
+    process: (container) => {
         const {client, msg, commands} = container;
         const prefix = container.prefix = process.env.CLIENT_PREFIX;
         if (!msg.content.startsWith(prefix)) return Promise.resolve();
-        const permCheck = client.utils.hasPermissions(msg.channel, client.user, ['sendMessages']);
+        const permCheck = utils.hasPermissions(msg.channel, client.user, ['sendMessages']);
         if (!permCheck) return Promise.resolve();
         const rawCmd = msg.content.substring(prefix.length).split(' ');
         const trigger = container.trigger = rawCmd[0].toLowerCase();

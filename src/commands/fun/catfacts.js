@@ -1,5 +1,7 @@
 const {Command} = require('sylphy');
 const axios = require('axios');
+const chalk = require('chalk');
+const utils = require('../../utils/utils');
 const catfacts = require('../../utils/constants').catfacts;
 
 class Catfact extends Command {
@@ -15,7 +17,7 @@ class Catfact extends Command {
     }
 
     async handle({msg, client, logger}, responder) {
-        const rand = client.utils.getRandomInt(0, catfacts.length - 1);
+        const rand = utils.getRandomInt(0, catfacts.length - 1);
         const fact = catfacts[rand()];
         try {
             const resp = await axios.get('http://random.cat/meow', {
@@ -23,7 +25,7 @@ class Catfact extends Command {
             });
             responder.send('', {
                 embed: {
-                    color: client.utils.getDefaultColor(msg, client),
+                    color: utils.getDefaultColor(msg, client),
                     title: 'Cat Fact',
                     url: resp.data.file,
                     description: fact,
@@ -33,7 +35,7 @@ class Catfact extends Command {
                 }
             });
         } catch (e) {
-            logger.error(client.chalk.red.bold(e));
+            logger.error(chalk.red.bold(e));
         }
     }
 }

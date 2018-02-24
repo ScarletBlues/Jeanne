@@ -1,5 +1,6 @@
 const {Command} = require('sylphy');
 const {pejorative, deities, taboo} = require('../../utils/constants');
+const utils = require('../../utils/utils');
 
 function randword(arr) {
     return arr[~~(Math.random() * arr.length)];
@@ -17,8 +18,8 @@ class Insult extends Command {
         });
     }
 
-    async handle({msg, client, rawArgs}, responder) {
-        const member = rawArgs[0] ? client.utils.findMember(msg, rawArgs[0]) : null;
+    async handle({msg, rawArgs}, responder) {
+        const member = rawArgs[0] ? utils.findMember(msg, rawArgs[0]) : null;
         const msgString = `${randword(pejorative)} ${randword(deities)} ${randword(taboo)}`;
         member ? responder.send(`${member.username}, ${msgString}`) : responder.send(msgString);
     }

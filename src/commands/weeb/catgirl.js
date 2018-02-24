@@ -1,5 +1,6 @@
 const {Command} = require('sylphy');
 const axios = require('axios');
+const utils = require('../../utils/utils');
 
 class Catgirl extends Command {
     constructor(...args) {
@@ -29,7 +30,7 @@ class Catgirl extends Command {
                 const data = res.data;
                 msg.channel.createMessage({
                     embed: {
-                        color: client.utils.getDefaultColor(msg, client),
+                        color: utils.getDefaultColor(msg, client),
                         description: `[ImageURL](https://nekos.brussell.me/image/${data.images[0].id})`,
                         image: {
                             url: `https://nekos.brussell.me/image/${data.images[0].id}`
@@ -45,7 +46,7 @@ class Catgirl extends Command {
                 const data = res.data;
                 msg.channel.createMessage({
                     embed: {
-                        color: client.utils.getDefaultColor(msg, client),
+                        color: utils.getDefaultColor(msg, client),
                         description: `[ImageURL](${data.neko})`,
                         image: {
                             url: data.neko
@@ -70,7 +71,7 @@ class Catgirl extends Command {
                 const data = res.data;
                 msg.channel.createMessage({
                     embed: {
-                        color: client.utils.getDefaultColor(msg, client),
+                        color: utils.getDefaultColor(msg, client),
                         description: `[ImageURL](https://nekos.brussell.me/image/${data.images[0].id})`,
                         image: {
                             url: `https://nekos.brussell.me/image/${data.images[0].id}`
@@ -86,7 +87,7 @@ class Catgirl extends Command {
                 const data = res.data;
                 msg.channel.createMessage({
                     embed: {
-                        color: client.utils.getDefaultColor(msg, client),
+                        color: utils.getDefaultColor(msg, client),
                         description: `[ImageURL](${data.neko})`,
                         image: {
                             url: data.neko

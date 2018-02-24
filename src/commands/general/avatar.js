@@ -1,5 +1,6 @@
 const {Command} = require('sylphy');
 const axios = require('axios');
+const utils = require('../../utils/utils');
 
 class Avatar extends Command {
     constructor(...args) {
@@ -25,7 +26,7 @@ class Avatar extends Command {
                 }
             });
         } else {
-            const member = client.utils.findMember(msg, rawArgs[0]);
+            const member = utils.findMember(msg, rawArgs[0]);
             if (!member) return responder.send(`Oops, it seems like I cound't find a member with \`${rawArgs[0]}\`\nPlease specify a name, ID or mention the user.`);
             const resp = await axios.get(member.dynamicAvatarURL('', 1024), {
                 headers: {'Accept': 'image/*'},

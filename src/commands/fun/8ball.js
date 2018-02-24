@@ -1,4 +1,5 @@
 const {Command} = require('sylphy');
+
 const answers = [
     'Yes!',
     'No way!',

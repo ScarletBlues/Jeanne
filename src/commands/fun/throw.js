@@ -1,5 +1,6 @@
 const {Command} = require('sylphy');
 const {emotes, receiver, thrower} = require('../../utils/constants');
+const utils = require('../../utils/utils');
 
 class Throw extends Command {
     constructor(...args) {
@@ -21,7 +22,7 @@ class Throw extends Command {
         const num = ~~(Math.random() * receiver.length);
         const received = receiver[num];
         const give = thrower[num];
-        const member = client.utils.findMember(msg, rawArgs[0]);
+        const member = utils.findMember(msg, rawArgs[0]);
         if (!member) return responder.send(`Oops, it seems like I cound't find a member with \`${rawArgs[0]}\`\nPlease specify a name, ID or mention the user.`);
         let description = `**${msg.author.username}** threw ${emote} at **${member.username}**\n\n` +
             `${member.username}: ${received}\n` +
@@ -31,7 +32,7 @@ class Throw extends Command {
         if (member.id === client.admins[0]) description = 'NO! Don\'t hurt my master you meany ;-;';
         responder.send('', {
             embed: {
-                color: client.utils.getDefaultColor(msg, client),
+                color: utils.getDefaultColor(msg, client),
                 description: description
             }
         });

@@ -1,5 +1,8 @@
-// Catfacts
-exports.catfacts = [
+/**
+ * Catfacts command
+ * @type {string[]}
+ */
+const catfacts = [
     'Every year, nearly four million cats are eaten in Asia',
     'On average, cats spend 2/3 of every day sleeping',
     'Unlike dogs, cats do not have a sweet tooth',
@@ -138,8 +141,11 @@ exports.catfacts = [
     'Elvis Presley’s Chinese name is Mao Wong, or Cat King'
 ];
 
-// Games
-exports.games = [
+/**
+ * Games
+ * @type {string[]}
+ */
+const games = [
     'with Senpai',
     'with {USERS} users',
     'in {GUILDS} guilds',
@@ -147,8 +153,11 @@ exports.games = [
     'with your waifus'
 ];
 
-// Blacklisted nsfw words
-exports.blacklistedWords = [
+/**
+ * Blacklisted nsfw words
+ * @type {string[]}
+ */
+const blacklistedWords = [
     'loli',
     'shota',
     'child',
@@ -157,8 +166,11 @@ exports.blacklistedWords = [
     'shotacon'
 ];
 
-// Funinsult
-exports.fillerWords = [
+/**
+ * Funinsult command
+ * @type {string[]}
+ */
+const fillerWords = [
     'burrito',
     'taco',
     'head',
@@ -169,7 +181,12 @@ exports.fillerWords = [
     'fooligan',
     'blubbie'
 ];
-exports.templates = [
+
+/**
+ * Funinsult command
+ * @type {string[]}
+ */
+const templates = [
     'Who are you to {{REPLACE}} {{REPLACE}}!',
     'Why is the back of your {{REPLACE}} so {{REPLACE}}?',
     'I love you {{REPLACE}}',
@@ -178,8 +195,11 @@ exports.templates = [
     'Woah! From here your {{REPLACE}} looks like a {{REPLACE}}.'
 ];
 
-// Insult
-exports.pejorative = [
+/**
+ * Insult command
+ * @type {string[]}
+ */
+const pejorative = [
     'Holy mother of',
     'Holy',
     'Jumping',
@@ -230,7 +250,12 @@ exports.pejorative = [
     'Disco dancing',
     'Yodeling'
 ];
-exports.deities = [
+
+/**
+ * Insult command
+ * @type {string[]}
+ */
+const deities = [
     'Christ',
     'Allah',
     'Mohammed',
@@ -261,7 +286,12 @@ exports.deities = [
     'Buddha',
     'Flying Spaghetti Monster'
 ];
-exports.taboo = [
+
+/**
+ * Insult command
+ * @type {string[]}
+ */
+const taboo = [
     'almighty',
     'on a bike',
     'alive',
@@ -316,8 +346,11 @@ exports.taboo = [
     'spanker'
 ];
 
-// Oldinsult
-exports.verbs = [
+/**
+ * Oldinsult command
+ * @type {string[]}
+ */
+const verbs = [
     'artless',
     'bawdy',
     'beslubbering',
@@ -369,7 +402,12 @@ exports.verbs = [
     'weedy',
     'yeasty'
 ];
-exports.adjectives = [
+
+/**
+ * Oldinsult command
+ * @type {string[]}
+ */
+const adjectives = [
     'base-court',
     'bat-fowling',
     'beef-witted',
@@ -421,7 +459,12 @@ exports.adjectives = [
     'unchin-snouted',
     'weather-bitten'
 ];
-exports.nouns = [
+
+/**
+ * Oldinsult command
+ * @type {string[]}
+ */
+const nouns = [
     'apple-john!',
     'baggage!',
     'barnacle!',
@@ -474,8 +517,11 @@ exports.nouns = [
     'wagtail!'
 ];
 
-// Puns
-exports.puns = [
+/**
+ * Puns command
+ * @type {string[]}
+ */
+const puns = [
     'In Corning I walked along Argonne Street, and I noticed all the houses were vacant. The people Argonne.',
     'A Trinidadian family is one with three fathers.',
     'My friend is good at comforting people who are going off the deep end. He\'s very deep-endable.',
@@ -607,8 +653,11 @@ exports.puns = [
     'Is there a cure for Tasmania?'
 ];
 
-// Reverse
-exports.opposites = {
+/**
+ * Reverse command constants
+ * @type {Object}
+ */
+const opposites = {
     'b': 'd',
     'd': 'b',
     'z': 's',
@@ -624,15 +673,21 @@ exports.opposites = {
     '\\': '/'
 };
 
-// rps
-exports.rps = [
+/**
+ * rps command constants
+ * @type {string[]}
+ */
+const rps = [
     'rock',
     'paper',
     'scissors'
 ];
 
-// spin slots
-exports.slots = [
+/**
+ * Slots command constants
+ * @type {string[]}
+ */
+const slots = [
     ':apple:',
     ':pear:',
     ':tangerine:',
@@ -646,8 +701,11 @@ exports.slots = [
     ':cookie:'
 ];
 
-// Throw
-exports.emotes = [
+/**
+ * Throw command constants
+ * @type {string[]}
+ */
+const emotes = [
     ':trophy:',
     ':blue_car:',
     ':knife:',
@@ -661,7 +719,12 @@ exports.emotes = [
     ':key:',
     ':syringe:'
 ];
-exports.receiver = [
+
+/**
+ * Throw command constants
+ * @type {string[]}
+ */
+const receiver = [
     'You lil cunt',
     'Whyy!!',
     'Please don\'t do that again',
@@ -671,7 +734,12 @@ exports.receiver = [
     'common bruh',
     'fek yuu'
 ];
-exports.thrower = [
+
+/**
+ * Throw command constants
+ * @type {string[]}
+ */
+const thrower = [
     'Hehe :stuck_out_tongue:',
     'Cus I can!',
     'Ohh I will hehe',
@@ -681,3 +749,41 @@ exports.thrower = [
     'u wot',
     'Hm luv ya 2'
 ];
+
+/**
+ * Guild Whitelist
+ * @type {string[]}
+ */
+const guildWhitelist = [
+    '240059867744698368',
+    '214966600770519041'
+];
+
+const guildNameKeywords = [
+    'bot',
+    'robot',
+    'farm'
+];
+
+module.exports = {
+    catfacts,
+    games,
+    blacklistedWords,
+    fillerWords,
+    templates,
+    pejorative,
+    deities,
+    taboo,
+    verbs,
+    adjectives,
+    nouns,
+    puns,
+    opposites,
+    rps,
+    slots,
+    emotes,
+    receiver,
+    thrower,
+    guildWhitelist,
+    guildNameKeywords
+};

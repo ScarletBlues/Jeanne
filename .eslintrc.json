@@ -45,6 +45,9 @@
   },
   "extends": "eslint:recommended",
   "globals": {
-    "moment": true
+    "moment": true,
+    "string": true,
+    "number": true,
+    "version": true
   }
 }

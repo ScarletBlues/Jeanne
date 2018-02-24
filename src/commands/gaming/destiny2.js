@@ -4,6 +4,7 @@ const getColors = require('get-image-colors');
 const {formatTime, round} = require('../../utils/utils');
 const config = require('../../../config');
 const baseURI = 'https://www.bungie.net/Platform';
+const chalk = require('chalk');
 
 class Destiny2 extends Command {
     constructor(...args) {
@@ -23,7 +24,7 @@ class Destiny2 extends Command {
         });
     }
 
-    async handle({client, rawArgs, logger}, responder) {
+    async handle({rawArgs, logger}, responder) {
         const system = rawArgs[0].toLowerCase();
         const displayName = rawArgs[1];
         let characterNum = rawArgs[2] ? rawArgs[2] : ~~(Math.random() * 3);
@@ -43,7 +44,7 @@ class Destiny2 extends Command {
                 headers: {'X-API-Key': config.tokens.destiny2}
             });
         } catch (e) {
-            return logger.error(client.chalk.red.bold(e));
+            return logger.error(chalk.red.bold(e));
         }
         if (resp.data.ErrorCode !== 1) return responder.send('', {
             embed: {
@@ -66,7 +67,7 @@ class Destiny2 extends Command {
                 params: {components: '200,202'}
             });
         } catch (e) {
-            return logger.error(client.chalk.red.bold(e));
+            return logger.error(chalk.red.bold(e));
         }
         if (res.data.ErrorCode !== 1) return responder.send('', {
             embed: {

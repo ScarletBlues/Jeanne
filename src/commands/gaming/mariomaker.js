@@ -1,5 +1,7 @@
 const {Command} = require('sylphy');
 const mm = require('mario-maker');
+const utils = require('../../utils/utils');
+const chalk = require('chalk');
 
 class MarioMaker extends Command {
     constructor(...args) {
@@ -22,11 +24,11 @@ class MarioMaker extends Command {
         const courseIDCheck = new RegExp(/^[0-9a-zA-Z]{4}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{4}$/);
         if (!courseID.match(courseIDCheck)) return responder.send(`${msg.author.mention}, That is **not** a valid course id.`);
         mm.getCourse(courseID, (error, response, json) => {
-            if (error) return logger.error(client.chalk.red.bold(error));
+            if (error) return logger.error(chalk.red.bold(error));
             if (response.statusCode !== 200) return responder.send('Ohno, something went wrong while requesting the course data!');
             responder.send('', {
                 embed: {
-                    color: client.utils.getDefaultColor(msg, client),
+                    color: utils.getDefaultColor(msg, client),
                     title: json.course_title,
                     fields: [
                         {name: 'Difficulty', value: json.difficulty, inline: true},

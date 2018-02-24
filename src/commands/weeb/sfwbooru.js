@@ -1,5 +1,7 @@
 const {Command} = require('sylphy');
 const sfwbooru = require('sfwbooru');
+const utils = require('../../utils/utils');
+const chalk = require('chalk');
 
 class Sfwbooru extends Command {
     constructor(...args) {
@@ -25,7 +27,7 @@ class Sfwbooru extends Command {
         if (site === 'list') {
             responder.send('', {
                 embed: {
-                    color: client.utils.getDefaultColor(msg, client),
+                    color: utils.getDefaultColor(msg, client),
                     author: {name: `${msg.author.username}`, icon_url: `${msg.author.avatarURL}`},
                     description: 'konachan.net, aliases: ["kn","konan","knet"]\n' +
                     'safebooru.org, aliases: ["sb","safe","safebooru"]\n' +
@@ -42,7 +44,7 @@ class Sfwbooru extends Command {
                     const imageURL = image.common.file_url.replace(/ /g, '%20');
                     responder.send('', {
                         embed: {
-                            color: client.utils.getDefaultColor(msg, client),
+                            color: utils.getDefaultColor(msg, client),
                             title: 'Click here for the direct image url',
                             url: imageURL,
                             description: `Searched tags: ${tags.join(', ')}\nScore: ${image.common.score}\nRating: ${image.common.rating}`,
@@ -55,7 +57,7 @@ class Sfwbooru extends Command {
                     if (e.message === 'You didn\'t give any images') return responder.send(`No images were found using \`${tags.join(', ')}\``);
                     return responder.send(e.message);
                 } else {
-                    logger.error(client.chalk.red.bold(e))
+                    logger.error(chalk.red.bold(e))
                 }
             }
         }

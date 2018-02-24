@@ -1,5 +1,7 @@
-const {Command, Base} = require('sylphy');
+const {Command} = require('sylphy');
 const {slots} = require('../../utils/constants');
+const utils = require('../../utils/utils');
+const chalk = require('chalk');
 
 class Spin extends Command {
     constructor(...args) {
@@ -15,22 +17,18 @@ class Spin extends Command {
         });
     }
 
-    async handle({msg, client, rawArgs, logger}, responder) {
-        const base = new Base(client);
-
+    async handle({msg, client, logger}, responder) {
         const choice1 = slots[~~(Math.random() * slots.length)];
         const choice2 = slots[~~(Math.random() * slots.length)];
         const choice3 = slots[~~(Math.random() * slots.length)];
         const sentMsg = await responder.send('', {
             embed: {
-                color: client.utils.getDefaultColor(msg, client),
+                color: utils.getDefaultColor(msg, client),
                 description: `**${msg.author.username}** spinned and got...`
             }
         });
-        let colour;
-        let title;
-        let description;
-        setTimeout(() => {
+        let colour, title, description;
+        setTimeout(async () => {
             if (choice1 === choice2 && choice2 === choice3) {
                 colour = 0x13c124;
                 title = `You spinned: ${choice1} | ${choice2} | ${choice3}`;
@@ -44,13 +42,17 @@ class Spin extends Command {
                 title = `You spinned: ${choice1} | ${choice2} | ${choice3}`;
                 description = 'It\'s not even close...';
             }
-            sentMsg.edit({
-                embed: {
-                    color: colour,
-                    title: title,
-                    description: description
-                }
-            }).catch((e) => logger.error(client.chalk.red.bold(e)));
+            try {
+                await sentMsg.edit({
+                    embed: {
+                        color: colour,
+                        title: title,
+                        description: description
+                    }
+                })
+            } catch (e) {
+                logger.error(chalk.red.bold(e))
+            }
         }, 2000);
     }
 }

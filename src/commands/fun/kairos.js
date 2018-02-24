@@ -1,6 +1,8 @@
 const {Command} = require('sylphy');
 const axios = require('axios');
 const config = require('../../../config');
+const utils = require('../../utils/utils');
+const chalk = require('chalk');
 
 class Kairos extends Command {
     constructor(...args) {
@@ -22,6 +24,7 @@ class Kairos extends Command {
         const regex = new RegExp(/^https?:\/\/.*\.(?:png|jpe?g)$/i);
         const url = rawArgs[0];
         if (url.match(regex)) {
+            let data;
             try {
                 const resp = await axios.post('https://api.kairos.com/detect', {
                     'image': url
@@ -33,31 +36,31 @@ class Kairos extends Command {
                         'app_key': config.tokens.kairos.key
                     }
                 });
-                const data = resp.data.images[0].faces[0].attributes;
-                responder.send('', {
-                    embed: {
-                        color: client.utils.getDefaultColor(msg, client),
-                        thumbnail: {url: url},
-                        fields: [{
-                            name: `Attributes`,
-                            value: `\`\`\`fix\n` +
-                            `Lips:      ${data.lips}\n` +
-                            `Gender:    ${data.gender.type === 'F' ? 'Female' : 'Male'}\n` +
-                            `Age:       ${data.age}\n` +
-                            `Glasses:   ${data.glasses}\n` +
-                            `Asian:     ${client.utils.round(data.asian * 100, 2)}%\n` +
-                            `Hispanic:  ${client.utils.round(data.hispanic * 100, 2)}%\n` +
-                            `Black:     ${client.utils.round(data.black * 100, 2)}%\n` +
-                            `White:     ${client.utils.round(data.white * 100, 2)}%\n` +
-                            `Other:     ${client.utils.round(data.other * 100, 2)}%\n` +
-                            `\`\`\``,
-                            inline: true
-                        }]
-                    }
-                });
+                data = resp.data.images[0].faces[0].attributes;
             } catch (e) {
-                logger.error(client.chalk.red.bold(e));
+                return logger.error(chalk.red.bold(e));
             }
+            responder.send('', {
+                embed: {
+                    color: utils.getDefaultColor(msg, client),
+                    thumbnail: {url: url},
+                    fields: [{
+                        name: `Attributes`,
+                        value: `\`\`\`fix\n` +
+                        `Lips:      ${data.lips}\n` +
+                        `Gender:    ${data.gender.type === 'F' ? 'Female' : 'Male'}\n` +
+                        `Age:       ${data.age}\n` +
+                        `Glasses:   ${data.glasses}\n` +
+                        `Asian:     ${utils.round(data.asian * 100, 2)}%\n` +
+                        `Hispanic:  ${utils.round(data.hispanic * 100, 2)}%\n` +
+                        `Black:     ${utils.round(data.black * 100, 2)}%\n` +
+                        `White:     ${utils.round(data.white * 100, 2)}%\n` +
+                        `Other:     ${utils.round(data.other * 100, 2)}%\n` +
+                        `\`\`\``,
+                        inline: true
+                    }]
+                }
+            });
         } else {
             responder.send('It seems like you provided an invalid image url, note that only png, jpg and jpeg are accepted');
         }

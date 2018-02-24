@@ -1,6 +1,7 @@
 const {Command} = require('sylphy');
 const axios = require('axios');
 const config = require('../../../config');
+const chalk = require('chalk');
 
 class Weeb extends Command {
     constructor(...args) {
@@ -23,7 +24,7 @@ class Weeb extends Command {
             responder.send(resp.data.types.join(', '));
         } catch (e) {
             responder.send('Oops it seems like an error occured.');
-            logger.error(client.chalk.red.bold(e));
+            logger.error(chalk.red.bold(e));
         }
     }
 }

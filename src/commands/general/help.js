@@ -17,7 +17,7 @@ class Help extends Command {
     async handle({msg, client, rawArgs}, responder) {
         if (!rawArgs[0]) {
             const filteredCmds = client.commands.filter((cmd) => cmd.options.hidden === false || !cmd.options.hidden);
-            const cmdNames = client.utils.unique(filteredCmds.map((cmd) => cmd.name));
+            const cmdNames = utils.unique(filteredCmds.map((cmd) => cmd.name));
             responder.send('', {
                 embed: {
                     color: utils.getDefaultColor(msg, client),

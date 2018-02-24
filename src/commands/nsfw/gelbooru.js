@@ -1,6 +1,7 @@
 const {Command} = require('sylphy');
 const axios = require('axios');
 const blacklistedWords = require('../../utils/constants').blacklistedWords;
+const utils = require('../../utils/utils');
 
 class Gelbooru extends Command {
     constructor(...args) {
@@ -41,7 +42,7 @@ class Gelbooru extends Command {
         const post = `https://gelbooru.com/index.php?page=post&s=view&id=${img[0].id}`;
         msg.channel.createMessage({
             embed: {
-                color: client.utils.getDefaultColor(msg, client),
+                color: utils.getDefaultColor(msg, client),
                 description: `[View post](${post})\n` +
                 `[View image](${imageUrl})`,
                 image: {

@@ -2,6 +2,8 @@ const {Command} = require('sylphy');
 const config = require('../../../config');
 const {promisifyAll} = require('tsubaki');
 const hs = promisifyAll(require('hearthstone-mashape')(config.tokens.hearthstone, 'enUS'));
+const utils = require('../../utils/utils');
+const chalk = require('chalk');
 
 class Hearthstone extends Command {
     constructor(...args) {
@@ -28,13 +30,13 @@ class Hearthstone extends Command {
         try {
             data = await hs.cardAsync({name: card, collectible: 1});
         } catch (e) {
-            return logger.error(client.chalk.red.bold(e));
+            return logger.error(chalk.red.bold(e));
         }
         if (!data[0]) return responder.send(`Ahhh, I couldn't find anything with \`${card}\`. Gomenasai!`);
         const image = option === 'gold' ? data[0].imgGold : data[0].img;
         responder.send('', {
             embed: {
-                color: client.utils.getDefaultColor(msg, client),
+                color: utils.getDefaultColor(msg, client),
                 description: `Name: ${data[0].name}\n` +
                 `Card Set: ${data[0].cardSet}\n` +
                 `Type: ${data[0].type}\n` +

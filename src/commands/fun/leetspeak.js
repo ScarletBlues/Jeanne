@@ -1,5 +1,6 @@
 const {Command} = require('sylphy');
 const Leetscript = require('leetscript');
+const chalk = require('chalk');
 
 class Leet extends Command {
     constructor(...args) {
@@ -15,7 +16,7 @@ class Leet extends Command {
         });
     }
 
-    async handle({client, rawArgs, logger}, responder) {
+    async handle({rawArgs, logger}, responder) {
         if (!rawArgs[1]) return responder.send('Please provide something to encode.');
         const option = rawArgs[0].toLowerCase();
         const leet = option === 'simple' ? new Leetscript(true) : option === 'advanced' ? new Leetscript() : null;
@@ -24,7 +25,7 @@ class Leet extends Command {
         try {
             encoded = await leet.encodePromise(rawArgs[1]);
         } catch (e) {
-            return logger.error(client.chalk.red.bold(e));
+            return logger.error(chalk.red.bold(e));
         }
         responder.send(encoded);
     }

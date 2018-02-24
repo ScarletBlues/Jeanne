@@ -1,6 +1,7 @@
 const {Command} = require('sylphy');
 const axios = require('axios');
 const findMember = require('../../utils/utils.js').findMember;
+const utils = require('../../utils/utils');
 
 class Lick extends Command {
     constructor(...args) {
@@ -28,7 +29,7 @@ class Lick extends Command {
         if (res.data.error) return msg.channel.createMessage(`❎ | Something went wrong while requesting the image.\n\`\`\`${res.data.error}\`\`\``);
         msg.channel.createMessage({
             embed: {
-                color: client.utils.getDefaultColor(msg, client),
+                color: utils.getDefaultColor(msg, client),
                 title: `${msg.author.nickname ? msg.author.nickname : msg.author.username} licks ${member.nickname ? member.nickname : member.username}`,
                 image: {
                     url: base_url + res.data.path

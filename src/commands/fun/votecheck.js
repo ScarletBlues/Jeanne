@@ -1,6 +1,8 @@
 const {Command} = require('sylphy');
 const axios = require('axios');
 const config = require('../../../config');
+const utils = require('../../utils/utils');
+const chalk = require('chalk');
 
 class Votecheck extends Command {
     constructor(...args) {
@@ -26,7 +28,7 @@ class Votecheck extends Command {
                 }
             });
         } catch (e) {
-            return logger.error(client.chalk.red.bold(e));
+            return logger.error(chalk.red.bold(e));
         }
         if (resp.status !== 200) return responder.send('Oof, something went wrong while requesting an image.');
         const users = resp.data;
@@ -36,7 +38,7 @@ class Votecheck extends Command {
             'Please go to: [discordbots.org/bot/jeanne](https://discordbots.org/bot/jeanne) and click on upvote.'
         responder.send('', {
             embed: {
-                color: client.utils.getDefaultColor(msg, client),
+                color: utils.getDefaultColor(msg, client),
                 description: description,
                 footer: {text: 'https://discordbots.org/bot/jeanne'}
             }

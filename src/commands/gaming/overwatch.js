@@ -1,5 +1,7 @@
 const {Command} = require('sylphy');
 const owjs = require('../../utils/overwatch');
+const utils = require('../../utils/utils');
+const chalk = require('chalk');
 
 class Overwatch extends Command {
     constructor(...args) {
@@ -29,7 +31,7 @@ class Overwatch extends Command {
         try {
             data = await owjs.getOverall(platform, region, username.replace("#", "-"));
         } catch (e) {
-            return logger.error(client.chalk.red.bold(e));
+            return logger.error(chalk.red.bold(e));
         }
         if (!data) return responder.send(`I could not find any data for \`${username}\` on \`${platform}\` with region \`${region}\``);
         if (type === 'profile' || type === 'pf') {
@@ -132,7 +134,7 @@ class Overwatch extends Command {
         }
         responder.send('', {
             embed: {
-                color: client.utils.getDefaultColor(msg, client),
+                color: utils.getDefaultColor(msg, client),
                 author: {
                     name: `Info for: ${username}`,
                     url: data.profile.url ? data.profile.url : '',

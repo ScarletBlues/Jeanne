@@ -1,6 +1,7 @@
 const {Command} = require('sylphy');
 const config = require('../../../config');
-const settingsManager = require('../../utils/settingsManager');
+const utils = require('../../utils/utils');
+const chalk = require('chalk');
 
 class Ban extends Command {
     constructor(...args) {
@@ -17,7 +18,7 @@ class Ban extends Command {
     }
 
     async handle({msg, client, rawArgs, logger}, responder) {
-        const member = client.utils.findMember(msg, rawArgs[0]);
+        const member = utils.findMember(msg, rawArgs[0]);
         if (!member) return responder.send(`Oops, it seems like I cound't find a member with \`${rawArgs[0]}\`\nPlease specify a name, ID or mention the user.`);
         let reason;
         if (!rawArgs[1]) reason = 'No reason was provided';
@@ -26,16 +27,16 @@ class Ban extends Command {
             client.banGuildMember(msg.channel.guild.id, member.id, 7, reason)
                 .then(() => {
                     responder.send(`Successfully banned \`${member.tag}\``);
-                    let check = settingsManager.getEventSetting(msg.channel.guild.id, 'userbanned');
+                    let check = client.settingsManager.getEventSetting(msg.channel.guild.id, 'userbanned');
                     if (check === false) return;
                     client.db_pool.getConnection((err, conn) => {
                         if (err) {
                             conn.release();
-                            return client.logger.error(client.chalk.red.bold(err));
+                            return client.logger.error(chalk.red.bold(err));
                         }
                         conn.query('SELECT * FROM guildSettings WHERE guildID=?', [msg.channel.guild.id], (error, results) => {
                             conn.release();
-                            if (error) return logger.error(client.chalk.red.bold(error));
+                            if (error) return logger.error(chalk.red.bold(error));
                             if (!results[0]) return;
                             if (!results[0].modlogChannel) return;
                             client.createMessage(results[0].modlogChannel, {
@@ -51,7 +52,7 @@ class Ban extends Command {
                             });
                         });
                     });
-                }).catch((e) => logger.error(client.chalk.red.bold(`[command error] ${e}`)))
+                }).catch((e) => logger.error(chalk.red.bold(`[command error] ${e}`)))
         } else {
             responder.send('It seems like I can\'t ban this member.');
         }

@@ -1,6 +1,7 @@
 const {Command} = require('sylphy');
 const axios = require('axios');
 const config = require('../../../config');
+const chalk = require('chalk');
 
 class Unsplash extends Command {
     constructor(...args) {
@@ -25,7 +26,7 @@ class Unsplash extends Command {
                 }
             });
         } catch (e) {
-            return logger.error(client.chalk.red.bold(e));
+            return logger.error(chalk.red.bold(e));
         }
         if (resp.status !== 200) return responder.send('Oof, something went wrong while requesting an image.');
         const data = resp.data;

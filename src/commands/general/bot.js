@@ -1,6 +1,7 @@
 const {Command} = require('sylphy');
 const axios = require('axios');
 const config = require('../../../config');
+const utils = require('../../utils/utils');
 
 class Bot extends Command {
     constructor(...args) {
@@ -29,7 +30,7 @@ class Bot extends Command {
         const owners = data.owner_ids.map((o) => `<@!${o}>`);
         responder.send('', {
             embed: {
-                color: client.utils.getDefaultColor(msg, client),
+                color: utils.getDefaultColor(msg, client),
                 author: {name: data.name, url: data.website, icon_url: ''},
                 thumbnail: {url: `${user.avatarURL}`},
                 description: `**ID:** ${data.client_id}\n` +

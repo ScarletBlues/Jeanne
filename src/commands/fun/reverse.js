@@ -1,4 +1,5 @@
 const {Command} = require('sylphy');
+const utils = require('../../utils/utils');
 
 class Reverse extends Command {
     constructor(...args) {
@@ -12,9 +13,9 @@ class Reverse extends Command {
         });
     }
 
-    async handle({client, rawArgs}, responder) {
+    async handle({rawArgs}, responder) {
         if (!rawArgs[0]) return responder.send('Please give me something to reverse.');
-        responder.send(client.utils.reverse(rawArgs[0]));
+        responder.send(utils.reverse(rawArgs[0]));
     }
 }
 

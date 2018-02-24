@@ -5,28 +5,35 @@ class Eval extends Command {
         super(...args, {
             name: 'eval',
             description: 'evaluate js code',
-            group: 'owner'
+            group: 'owner',
+            options: {adminOnly: true},
+            usage: [
+                {name: 'eval', type: 'string', optional: false, last: true}
+            ]
         });
     }
 
-    async handle({msg, client}, responder) {
-        if (client.admins.indexOf(msg.author.id) !== -1) {
-            let toEval = msg.content.replace(/!!eval /g, '');
-            let result = '~eval failed~';
-            let lower = toEval.toLowerCase();
-            if (lower.includes('client.token')) return responder.send('owo nothing to be found here.');
-            try {
-                result = eval(toEval);
-            } catch (error) {
-                responder.send(`__**Input:**__\n\`\`\`js\n${toEval}\`\`\`\n__**Error:**__\n\`\`\`diff\n- ${error}\`\`\``);
-            }
-            if (result !== '~eval failed~') {
-                responder.send(`__**Input:**__\n\`\`\`js\n${toEval}\`\`\`\n__**Result:**__\n\`\`\`${result}\`\`\``);
-            }
-        } else {
-            responder.send('❎ | Only my developer can execute this command.');
+    async handle({msg, args, client}, responder) {
+        let suffix, evaled;
+        try {
+            suffix = cleanCodeBlock(args.eval);
+            evaled = eval(suffix);
+        } catch (err) {
+            return responder.send(
+                '__**Input:**__\n```js\n' + evaled + '```\n' +
+                '__**Error:**__\n```diff\n- ' + err + '```'
+            );
         }
+        if (typeof evaled === 'object') evaled = JSON.stringify(evaled);
+        responder.send(
+            '__**Input:**__\n```js\n' + suffix + '```\n' +
+            '__**Result:**__\n```' + evaled + '```'
+        );
     }
+}
+
+function cleanCodeBlock(string) {
+    return string.replace(/^```.* ?/, '').replace(/```$/, '')
 }
 
 module.exports = Eval;

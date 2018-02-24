@@ -1,6 +1,7 @@
 const {Command} = require('sylphy');
 const axios = require('axios');
 const blacklistedWords = require('../../utils/constants').blacklistedWords;
+const utils = require('../../utils/utils');
 
 class Konachan extends Command {
     constructor(...args) {
@@ -40,7 +41,7 @@ class Konachan extends Command {
         const post = `https://konachan.com/post/show/${res.data[0].id}`;
         msg.channel.createMessage({
             embed: {
-                color: client.utils.getDefaultColor(msg, client),
+                color: utils.getDefaultColor(msg, client),
                 description: `[View post](${post})\n` +
                 `[View image](${sampleImage})`,
                 image: {

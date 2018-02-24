@@ -1,4 +1,5 @@
 const {Command} = require('sylphy');
+const utils = require('../../utils/utils');
 
 class Say extends Command {
     constructor(...args) {
@@ -21,7 +22,7 @@ class Say extends Command {
         const chan = msg.channelMentions[0] ? msg.channel.guild.channels.get(msg.channelMentions[0]) : msg.channel;
         chan.createMessage({
             embed: {
-                color: client.utils.getDefaultColor(msg, client),
+                color: utils.getDefaultColor(msg, client),
                 description: `${rawArgs[0]}` || 'echo'
             }
         });

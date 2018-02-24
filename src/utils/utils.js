@@ -97,19 +97,19 @@ exports.findMember = (msg, str) => {
 
 /**
  * Update the guild count on bots.discord.pw
- * @param {Object} client - The client
+ * @param {Object} jeanne - The bot client
  * @param {String} id - The bot's id
  * @param {String} key - The bots.pw api key
  * @param {Number} server_count - The bot's guild count
  */
-exports.updateAbalBots = (client, id, key, server_count) => {
+exports.updateAbalBots = (jeanne, id, key, server_count) => {
     if (!key || !server_count) return;
     axios.post(`https://bots.discord.pw/api/bots/${id}/stats`, {
         server_count
     }, {
         headers: {
             'Authorization': key,
-            'User-Agent': client.userAgent
+            'User-Agent': jeanne.userAgent
         }
     }).then((res) => {
         if (res.status !== 200) return logger.error(chalk.red.bold(`[ABAL BOT LIST UPDATE ERROR] ${res.status || res.data}`));
@@ -119,13 +119,13 @@ exports.updateAbalBots = (client, id, key, server_count) => {
 
 /**
  * Update the guild/shard count on discordbots.org
- * @param {Object} client - The bot client
+ * @param {Object} jeanne - The bot client
  * @param {String} id - The bot's id
  * @param {String} key - The bots.org api key
  * @param {Number} server_count - The bot's guild count
  * @param {Number} shard_count - The bot's shard count
  */
-exports.updateDiscordBots = (client, id, key, server_count, shard_count) => {
+exports.updateDiscordBots = (jeanne, id, key, server_count, shard_count) => {
     if (!key || !server_count) return;
     axios.post(`https://discordbots.org/api/bots/${id}/stats`, {
         server_count,
@@ -133,7 +133,7 @@ exports.updateDiscordBots = (client, id, key, server_count, shard_count) => {
     }, {
         headers: {
             'Authorization': key,
-            'User-Agent': client.userAgent
+            'User-Agent': jeanne.userAgent
         }
     }).then((res) => {
         if (res.status !== 200) return logger.error(chalk.red.bold(`[BOTS .ORG LIST UPDATE ERROR] ${res.status || res.data}`));
@@ -143,21 +143,21 @@ exports.updateDiscordBots = (client, id, key, server_count, shard_count) => {
 
 /**
  * Sets the bot's avatar
- * @param {Object} bot - The bot client
+ * @param {Object} jeanne - The bot client
  * @param {String} url - The avatar to set
  * @return {Promise<any>} The result
  */
-exports.setAvatar = (bot, url) => {
+exports.setAvatar = (jeanne, url) => {
     return new Promise((resolve, reject) => {
-        if (bot !== undefined && typeof url === 'string') {
+        if (!!jeanne && typeof url === 'string') {
             axios.get(url, {
                 headers: {
-                    'User-Agent': bot.userAgent
+                    'User-Agent': jeanne.userAgent
                 },
                 responseType: 'arraybuffer'
             }).then((res) => {
                 if (res.status === 200) {
-                    bot.editSelf({
+                    jeanne.editSelf({
                         avatar: `data:${res.headers['content-type']};base64,${res.data.toString('base64')}`
                     }).then(resolve)
                         .catch(reject);
@@ -305,32 +305,32 @@ exports.sortProperties = (obj, sortedBy, isNumericSort, reverse) => {
 
 /**
  * Executes the error webhook in my private guild
- * @param {Object} bot - The bot client
+ * @param {Object} jeanne - The bot client
  * @param {Error} error - The error to handle
  * @param {String} type - The type of "error", can be WARN or ERROR
  */
-exports.errorWebhook = (bot, error, type) => {
+exports.errorWebhook = (jeanne, error, type) => {
     if (type === 'WARN') {
-        bot.executeWebhook(config.webhooks.errorID, config.webhooks.errorToken, {
+        jeanne.executeWebhook(config.webhooks.errorID, config.webhooks.errorToken, {
             embeds: [{
                 title: 'WARNING',
                 color: config.colours.yellow,
                 description: `**${new Date().toLocaleString()}**\n\n${error}`,
             }],
-            username: `${bot.user.username}`,
-            avatarURL: `${bot.user.dynamicAvatarURL('png', 2048)}`
+            username: `${jeanne.user.username}`,
+            avatarURL: `${jeanne.user.dynamicAvatarURL('png', 2048)}`
         }).catch((err) => {
             logger.error(chalk.red.bold(err));
         });
     } else if (type === 'ERROR') {
-        bot.executeWebhook(config.webhooks.errorID, config.webhooks.errorToken, {
+        jeanne.executeWebhook(config.webhooks.errorID, config.webhooks.errorToken, {
             embeds: [{
                 title: 'ERROR',
                 color: config.colours.red,
                 description: `**${new Date().toLocaleString()}**\n\n${error.stack ? error.stack : ''}${!error.stack ? error : ''}`,
             }],
-            username: `${bot.user ? bot.user.username : 'Jeanne d\'Arc'}`,
-            avatarURL: `${bot.user ? bot.user.dynamicAvatarURL('png', 2048) : 'https://b.catgirlsare.sexy/d1mh.png'}`
+            username: `${jeanne.user ? jeanne.user.username : 'Jeanne d\'Arc'}`,
+            avatarURL: `${jeanne.user ? jeanne.user.dynamicAvatarURL('png', 2048) : 'https://b.catgirlsare.sexy/d1mh.png'}`
         }).catch((err) => {
             logger.error(chalk.red.bold(err));
         });
@@ -351,14 +351,14 @@ exports.round = (value, precision) => {
 /**
  * Get the highest role colour if one exits else return 15277667 as defautl colour
  * @param {Object} obj - The message or guild object depending on if guild is true or false
- * @param {Object} client - The client object
+ * @param {Object} jeanne - The client object
  * @param {Boolean} guild - Wether obj is a guild object or not, defaults to false
  * @returns {Number} The colour
  */
-exports.getDefaultColor = (obj, client, guild = false) => {
+exports.getDefaultColor = (obj, jeanne, guild = false) => {
     let user;
-    if (guild) user = obj.members.get(client.user.id);
-    else user = obj.channel.guild.members.get(client.user.id);
+    if (guild) user = obj.members.get(jeanne.user.id);
+    else user = obj.channel.guild.members.get(jeanne.user.id);
 
     if (user.roles.length >= 1) {
         if (user.highestRole.color === 0) return 15277667;
@@ -406,6 +406,24 @@ Object.defineProperty(String.prototype, 'isValidID', {
         return /^\d{17,18}$/.test(this);
     }
 });
+
+/**
+ * Why?? you may ask, simple, because toString() looks ugly lul
+ * @param arg
+ * @return {string}
+ */
+global.string = (arg) => {
+    return arg.toString()
+};
+
+/**
+ * Don't even ask. I know what I'm doing Kappa
+ * @param arg
+ * @return {number}
+ */
+global.number = (arg) => {
+    return parseInt(arg)
+};
 
 /**
  * Reverse a string of ascii art

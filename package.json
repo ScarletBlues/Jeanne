@@ -1,7 +1,7 @@
 {
   "name": "jeanne",
   "description": "An advanced and customizable bot for Discord.",
-  "version": "4.0.0",
+  "version": "4.0.0-alpha2",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -36,6 +36,8 @@
     "mario-maker": "^1.0.4",
     "moment": "^2.20.1",
     "moment-duration-format": "^2.2.1",
+    "mongodb": "^3.0.3",
+    "mongoose": "^5.0.7",
     "morse-node": "^0.1.1",
     "mysql": "^2.15.0",
     "node-osu": "^1.3.0",

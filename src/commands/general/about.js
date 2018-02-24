@@ -2,6 +2,7 @@ const {Command} = require('sylphy');
 const botVersion = require('../../../package.json').version;
 const libVersion = require('../../../node_modules/eris/package.json').version;
 const fwVersion = require('../../../node_modules/sylphy/package.json').version;
+const utils = require('../../utils/utils');
 
 class About extends Command {
     constructor(...args) {
@@ -17,7 +18,7 @@ class About extends Command {
         const me = client.users.get('93973697643155456');
         responder.send('', {
             embed: {
-                color: client.utils.getDefaultColor(msg, client),
+                color: utils.getDefaultColor(msg, client),
                 title: client.user.username,
                 url: 'https://jeannedarc.xyz/',
                 description: 'Jeanne is a fast and simple to use discord bot. It will make your discord experience much more fun!',

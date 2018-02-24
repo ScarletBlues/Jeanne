@@ -1,5 +1,6 @@
 const {Command} = require('sylphy');
 const axios = require('axios');
+const chalk = require('chalk');
 
 class Zerochan extends Command {
     constructor(...args) {
@@ -27,7 +28,7 @@ class Zerochan extends Command {
             if (e.response && (e.response.status === 301 || e.response.status === 302)) {
                 return responder.send(`It seems like zerochan tried to redirect, maybe try a different word for what you tried to search.\nFor example: \`neko\` should be \`cat\`.`);
             }
-            logger.error(client.chalk.red.bold(e));
+            logger.error(chalk.red.bold(e));
             return responder.send(`Could not get any images for \`${args}\``);
         }
 
@@ -41,7 +42,7 @@ class Zerochan extends Command {
                 params: {json: true}
             });
         } catch (e) {
-            logger.error(client.chalk.red.bold(e));
+            logger.error(chalk.red.bold(e));
             return responder.send(`Could not get any images for \`${args}\``);
         }
 
@@ -60,7 +61,7 @@ class Zerochan extends Command {
                 responseType: 'arraybuffer'
             });
         } catch (e) {
-            logger.error(client.chalk.red.bold(e));
+            logger.error(chalk.red.bold(e));
             return responder.send(`Something went wrong while trying to get the image, please try again later.`);
         }
 

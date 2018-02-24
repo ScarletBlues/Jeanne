@@ -2,26 +2,28 @@ const reload = require('require-reload')(require);
 const chalk = require('chalk');
 const {Logger} = require('sylphy');
 const logger = new Logger();
-const {stopMoe} = require('./listenmoe');
 let utils = require('./utils.js');
 let genericSettings = reload('../db/genericSettings.json');
 let updateGeneric = false;
 
-setInterval(() => {
+setInterval(async () => {
     if (updateGeneric === true) {
-        utils.safeSave('db/genericSettings', '.json', JSON.stringify(genericSettings));
+        await utils.safeSave('db/genericSettings', '.json', JSON.stringify(genericSettings));
         updateGeneric = false;
     }
 }, 20000);
 
-function handleShutdown() {
-    return new Promise((resolve, reject) => {
-        utils.safeSave('db/genericSettings', '.json', JSON.stringify(genericSettings))
-            .then(() => {
-                stopMoe();
-                resolve();
-            }).catch((e) => reject(e));
-    });
+async function handleShutdown(jeanne) {
+    try {
+        await utils.safeSave('db/genericSettings', '.json', JSON.stringify(genericSettings));
+        await jeanne.mongo.destroy();
+        await jeanne.db_pool.end();
+    } catch (e) {
+        logger.error(chalk.red.bold(`[Shutdown] ${e}`))
+    }
+    jeanne.listenmoe.stop();
+    jeanne.editStatus('invisible', null);
+    jeanne.disconnect({reconnect: false});
 }
 
 /////////// WELCOME MESSAGES ///////////
@@ -204,16 +206,16 @@ function getGuildsEvents(guildId) {
 
 ////////// MISC ///////////
 
-function handleDeletedChannel(channel, client) {
-    client.db_pool.getConnection((err, conn) => {
+function handleDeletedChannel(channel, jeanne) {
+    jeanne.db_pool.getConnection((err, conn) => {
         if (err) {
             conn.release();
-            return client.logger.error(chalk.red.blob(err));
+            return jeanne.logger.error(chalk.red.blob(err));
         } else {
             conn.query('SELECT welcomeChannel,modlogChannel FROM guildSettings WHERE guildID=?', [channel.guild.id], (error, results) => {
                 if (error) {
                     conn.release();
-                    return client.logger.error(chalk.red.blob(error));
+                    return jeanne.logger.error(chalk.red.blob(error));
                 } else if (!results[0]) {
                     return conn.release();
                 } else {

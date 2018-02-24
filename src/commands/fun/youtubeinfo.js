@@ -1,6 +1,8 @@
 const {Command} = require('sylphy');
 const fetchVideoInfo = require('youtube-info');
 const {formatYTSeconds, getYouTubeVideoId} = require('../../utils/utils');
+const utils = require('../../utils/utils');
+const chalk = require('chalk');
 
 class YTInfo extends Command {
     constructor(...args) {
@@ -22,7 +24,7 @@ class YTInfo extends Command {
             const youtubeID = await getYouTubeVideoId(rawArgs[0]);
             videoInfo = await fetchVideoInfo(youtubeID);
         } catch (e) {
-            return logger.error(client.chalk.red.bold(e));
+            return logger.error(chalk.red.bold(e));
         }
         if (!videoInfo) return responder.send('Could not get info for this video.');
         let desc = 'n/a';
@@ -32,7 +34,7 @@ class YTInfo extends Command {
         }
         responder.send('', {
             embed: {
-                color: client.utils.getDefaultColor(msg, client),
+                color: utils.getDefaultColor(msg, client),
                 title: videoInfo.title ? videoInfo.title : 'N/A',
                 url: videoInfo.url ? videoInfo.url : '',
                 thumbnail: {url: videoInfo.thumbnailUrl ? videoInfo.thumbnailUrl : ''},

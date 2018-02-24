@@ -1,6 +1,8 @@
 const {Command} = require('sylphy');
 const imdb = require('imdb-api');
 const config = require('../../../config');
+const utils = require('../../utils/utils');
+const chalk = require('chalk');
 
 class Imdb extends Command {
     constructor(...args) {
@@ -24,11 +26,11 @@ class Imdb extends Command {
         try {
             movie = await imdb.get(rawArgs[0], {apiKey: config.tokens.imdb});
         } catch (e) {
-            return logger.error(client.chalk.red.bold(e));
+            return logger.error(chalk.red.bold(e));
         }
         responder.send('', {
             embed: {
-                color: client.utils.getDefaultColor(msg, client),
+                color: utils.getDefaultColor(msg, client),
                 title: movie.title,
                 description: movie.plot,
                 url: movie.imdburl,

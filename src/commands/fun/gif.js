@@ -1,5 +1,7 @@
 const {Command} = require('sylphy');
+const chalk = require('chalk');
 const axios = require('axios');
+const config = require('../../../config');
 
 class Gif extends Command {
     constructor(...args) {
@@ -20,14 +22,17 @@ class Gif extends Command {
         let resp, image;
         try {
             resp = await axios.get('https://api.giphy.com/v1/gifs/random', {
-                headers: {'User-Agent': client.userAgent},
-                params: {
-                    'api_key': 'dc6zaTOxFJmzC', // public api key
-                    'tag': rawArgs[0] ? rawArgs[0] : '',
-                    'fmt': 'json'
+                headers: {
+                    'User-Agent': client.userAgent,
+                    'Accept': 'application/json'
+                }, params: {
+                    'api_key': config.tokens.giphy,
+                    'tag': rawArgs[0] ? rawArgs[0] : ''
                 }
             });
             if (resp.status === 200) {
+                console.log(resp.data);
+                if (!resp.data.data) return responder.send('Aii it seems like I couldn\'t find any gifs. Maybe try again with a different tag.');
                 image = await axios.get(resp.data.data.image_url, {
                     headers: {
                         'Accept': 'image/*',
@@ -37,7 +42,7 @@ class Gif extends Command {
                 });
             }
         } catch (e) {
-            return logger.error(client.chalk.red.bold(e));
+            return logger.error(chalk.red.bold(e));
         }
         if (image.status === 200) {
             const fileType = image.headers['content-type'].replace('image/', '');

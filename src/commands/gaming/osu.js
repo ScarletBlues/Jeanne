@@ -1,4 +1,5 @@
 const {Command} = require('sylphy');
+const utils = require('../../utils/utils');
 const NodeOsu = require('node-osu');
 const osu = new NodeOsu.Api(require('../../../config').tokens.osu, {
     notFoundAsError: true,
@@ -30,16 +31,16 @@ class Osu extends Command {
             }
             responder.send('', {
                 embed: {
-                    color: client.utils.getDefaultColor(msg, client),
+                    color: utils.getDefaultColor(msg, client),
                     title: `osu! data from ${osuUser.name}`,
                     fields: [
                         {name: `ID`, value: `${osuUser.id}`, inline: true},
                         {name: `Name`, value: `${osuUser.name}`, inline: true},
                         {name: `Country`, value: `${osuUser.country}`, inline: true},
-                        {name: `Level`, value: `${client.utils.round(osuUser.level, 1)}`, inline: true},
-                        {name: `Accuracy`, value: `${client.utils.round(osuUser.accuracy, 1)}`, inline: true},
+                        {name: `Level`, value: `${utils.round(osuUser.level, 1)}`, inline: true},
+                        {name: `Accuracy`, value: `${utils.round(osuUser.accuracy, 1)}`, inline: true},
                         {name: `Scores`, value: `(ranked) ${osuUser.scores.ranked}\n(total) ${osuUser.scores.total}`, inline: true},
-                        {name: `pp`, value: `(raw) ${client.utils.round(osuUser.pp.raw, 1)}\n(rank) ${osuUser.pp.rank}\n(country rank) ${osuUser.pp.countryRank}`, inline: true},
+                        {name: `pp`, value: `(raw) ${utils.round(osuUser.pp.raw, 1)}\n(rank) ${osuUser.pp.rank}\n(country rank) ${osuUser.pp.countryRank}`, inline: true},
                         {name: `Counts`, value: `(SS) ${osuUser.counts.SS}\n(S) ${osuUser.counts.S}\n(A) ${osuUser.counts.A}\n(plays) ${osuUser.counts.plays}`, inline: true}
                     ]
                 }
@@ -53,14 +54,14 @@ class Osu extends Command {
             }
             responder.send('', {
                 embed: {
-                    color: client.utils.getDefaultColor(msg, client),
+                    color: utils.getDefaultColor(msg, client),
                     title: `osu! data from ${osuBest[0].user.name}`,
                     fields: [
                         {name: `User ID`, value: `${osuBest[0].user.id}`, inline: true},
                         {name: `Name`, value: `${osuBest[0].user.name}`, inline: true},
                         {name: `Rank`, value: `${osuBest[0].rank}`, inline: true},
                         {name: `Max combo`, value: `${osuBest[0].maxCombo}`, inline: true},
-                        {name: `pp`, value: `${client.utils.round(osuBest[0].pp, 1)}`, inline: true},
+                        {name: `pp`, value: `${utils.round(osuBest[0].pp, 1)}`, inline: true},
                         {name: `Date`, value: `${osuBest[0].raw_date}`, inline: true},
                         {name: `Counts`, value: `(geki) ${osuBest[0].counts.geki}\n(katu) ${osuBest[0].counts.katu}\n(miss) ${osuBest[0].counts.miss}`, inline: true}
                     ]

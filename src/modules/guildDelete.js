@@ -1,14 +1,12 @@
 const config = require('../../config.json');
 const utils = require('../utils/utils.js');
 const chalk = require('chalk');
-moment = require('../../node_modules/moment');
 
 module.exports = {
-    name: 'onGuildDelete',
+    name: 'guildDelete',
     events: {
         guildDelete: 'onGuildDelete'
-    },
-    onGuildDelete: async (guild, client) => {
+    }, onGuildDelete: async (guild, jeanne) => {
         const bots = guild.members.filter(u => u.user.bot).length;
         const total = guild.memberCount;
         const humans = total - bots;
@@ -16,10 +14,10 @@ module.exports = {
         const botper = bots / total * 100;
         if (botper >= 60) return;
 
-        client.db_pool.getConnection((err, conn) => {
+        jeanne.db_pool.getConnection((err, conn) => {
             if (err) {
                 conn.release();
-                return client.logger.error(chalk.red.bold(err));
+                return jeanne.logger.error(chalk.red.bold(err));
             }
             conn.query('DELETE FROM guildSettings WHERE guildID=?', [guild.id], () => {
                 conn.release();
@@ -27,41 +25,24 @@ module.exports = {
         });
 
         try {
-            await client.executeWebhook(config.webhooks.guildUpdateID, config.webhooks.guildUpdateToken, {
+            await jeanne.executeWebhook(config.webhooks.guildUpdateID, config.webhooks.guildUpdateToken, {
                 embeds: [{
                     color: config.colours.red,
                     title: 'Left guild:',
                     description: `**${guild.name} (${guild.id})**`,
-                    thumbnail: {
-                        url: `${guild.iconURL === null ? '' : ''}${guild.iconURL !== null ? guild.iconURL : ''}`
-                    },
-                    fields: [{
-                        name: 'Owner',
-                        value: `${guild.members.get(guild.ownerID).user.username}#${guild.members.get(guild.ownerID).user.discriminator}\n(${guild.ownerID})`,
-                        inline: true
-                    },
-                        {
-                            name: 'Total members',
-                            value: `${total}`,
-                            inline: true
-                        },
-                        {
-                            name: 'Humans',
-                            value: `${humans}, ${utils.round(humanper, 2)}%`,
-                            inline: true
-                        },
-                        {
-                            name: 'Bots',
-                            value: `${bots}, ${utils.round(botper, 2)}%`,
-                            inline: true
-                        },
+                    thumbnail: {url: guild.iconURL ? guild.iconURL : ''},
+                    fields: [
+                        {name: 'Owner', value: `${guild.members.get(guild.ownerID).tag}\n(${guild.ownerID})`, inline: true},
+                        {name: 'Total members', value: total, inline: true},
+                        {name: 'Humans', value: `${humans}, ${utils.round(humanper, 2)}%`, inline: true},
+                        {name: 'Bots', value: `${bots}, ${utils.round(botper, 2)}%`, inline: true},
                     ]
                 }],
-                username: `${client.user.username}`,
-                avatarURL: `${client.user.dynamicAvatarURL('png', 2048)}`
+                username: jeanne.user.username,
+                avatarURL: jeanne.user.dynamicAvatarURL('png', 2048)
             });
         } catch (e) {
-            client.logger.error(client.chalk.red.bold(e));
+            jeanne.logger.error(chalk.red.bold(e));
         }
     }
 };

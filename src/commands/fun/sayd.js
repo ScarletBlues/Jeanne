@@ -1,4 +1,6 @@
 const {Command} = require('sylphy');
+const utils = require('../../utils/utils');
+const chalk = require('chalk');
 
 class Sayd extends Command {
     constructor(...args) {
@@ -19,12 +21,17 @@ class Sayd extends Command {
 
     async handle({msg, client, rawArgs, logger}) {
         const chan = msg.channelMentions[0] ? msg.channel.guild.channels.get(msg.channelMentions[0]) : msg.channel;
-        chan.createMessage({
-            embed: {
-                color: client.utils.getDefaultColor(msg, client),
-                description: `${rawArgs[0]}` || 'echo'
-            }
-        }).then(() => msg.delete().catch((e) => logger.error(client.chalk.red.bold(e))));
+        try {
+            await chan.createMessage({
+                embed: {
+                    color: utils.getDefaultColor(msg, client),
+                    description: `${rawArgs[0]}` || 'echo'
+                }
+            });
+            await msg.delete();
+        } catch (e) {
+            logger.error(chalk.red.bold(e));
+        }
     }
 }
 

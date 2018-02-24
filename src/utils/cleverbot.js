@@ -17,14 +17,14 @@ function trimText(cleanContent, name) {
     return cleanContent.replace(`@${name}`, '').trim();
 }
 
-async function cleverbot(client, msg) {
-    const permCheck = client.utils.hasPermissions(msg.channel, client.user, ['sendMessages']);
+async function cleverbot(jeanne, msg) {
+    const permCheck = jeanne.utils.hasPermissions(msg.channel, jeanne.user, ['sendMessages']);
     if (!permCheck) return;
 
-    const owner = client.users.get(client.admins[0]);
-    let text = msg.channel.guild === undefined ? msg.cleanContent : trimText(msg.cleanContent, msg.channel.guild.members.get(client.user.id).nick || client.user.username);
+    const owner = jeanne.users.get(jeanne.admins[0]);
+    let text = msg.channel.guild === undefined ? msg.cleanContent : trimText(msg.cleanContent, msg.channel.guild.members.get(jeanne.user.id).nick || jeanne.user.username);
     if (spamCheck(msg.author.id, text)) {
-        client.logger.info(`${chalk.bold.magenta(msg.channel.guild === undefined ? '(in PMs)' : msg.channel.guild.name)} > ${chalk.bold.green(msg.author.username)}: ${chalk.bold.blue(`@${client.user.username}`)} ${text}`);
+        jeanne.logger.info(`${chalk.bold.magenta(msg.channel.guild === undefined ? '(in PMs)' : msg.channel.guild.name)} > ${chalk.bold.green(msg.author.username)}: ${chalk.bold.blue(`@${jeanne.user.username}`)} ${text}`);
         if (text === '') {
             await msg.channel.createMessage(`${msg.author.username}, What do you want to talk about?`);
         } else {
@@ -39,15 +39,15 @@ async function cleverbot(client, msg) {
                         return;
                     }
                 }
-                answer = answer.replace(/Chatmundo/gi, client.user.username)
+                answer = answer.replace(/Chatmundo/gi, jeanne.user.username)
                     .replace(/<br\/> ?/gi, '\n')
                     .replace(/Elizabeth/gi, `${owner.tag}`)
                     .replace(/elizaibeth/gi, `${owner.tag}`);
                 await msg.channel.createMessage(`${msg.author.username}, ${answer}`);
             } catch (e) {
-                client.logger.error(chalk.red.bold(`[cleverbot error] ${e}`));
+                jeanne.logger.error(chalk.red.bold(`[cleverbot error] ${e}`));
                 msg.channel.createMessage(`${msg.author.username}, I don't wanna talk right now :slight_frown:`)
-                    .catch((err) => client.logger.error(chalk.red.bold(`[cleverbot error] ${err}`)));
+                    .catch((err) => jeanne.logger.error(chalk.red.bold(`[cleverbot error] ${err}`)));
             }
         }
     }

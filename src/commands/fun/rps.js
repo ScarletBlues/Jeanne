@@ -1,5 +1,6 @@
 const {Command} = require('sylphy');
 const {rps} = require('../../utils/constants');
+const utils = require('../../utils/utils');
 
 class Rps extends Command {
     constructor(...args) {
@@ -26,7 +27,7 @@ class Rps extends Command {
             message = `You chose: \`${userChoice}\`\nI choose: \`${choice}\`\nRip it's a tied game...`;
             return responder.send('', {
                 embed: {
-                    color: client.utils.getDefaultColor(msg, client),
+                    color: utils.getDefaultColor(msg, client),
                     description: message
                 }
             });
@@ -66,7 +67,7 @@ class Rps extends Command {
         }
         responder.send('', {
             embed: {
-                color: client.utils.getDefaultColor(msg, client),
+                color: utils.getDefaultColor(msg, client),
                 description: message
             }
         });

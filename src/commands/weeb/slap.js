@@ -1,5 +1,6 @@
 const {Command} = require('sylphy');
 const axios = require('axios');
+const utils = require('../../utils/utils');
 
 class Slap extends Command {
     constructor(...args) {
@@ -16,7 +17,7 @@ class Slap extends Command {
         args = args.join(' ');
         if (!args) return msg.channel.createMessage('❎ | Please mention a member to slap');
 
-        const member = client.utils.findMember(msg, args);
+        const member = utils.findMember(msg, args);
         if (!member) return msg.channel.createMessage(`❎ | Couldn't find a member for **${args}**`);
 
         const base_url = 'https://rra.ram.moe';
@@ -27,7 +28,7 @@ class Slap extends Command {
         if (res.data.error) return msg.channel.createMessage(`❎ | Something went wrong while requesting the image.\n\`\`\`${res.data.error}\`\`\``);
         msg.channel.createMessage({
             embed: {
-                color: client.utils.getDefaultColor(msg, client),
+                color: utils.getDefaultColor(msg, client),
                 title: `${msg.author.nickname ? msg.author.nickname : msg.author.username} gives ${member.nickname ? member.nickname : member.username} a good slap`,
                 image: {
                     url: base_url + res.data.path

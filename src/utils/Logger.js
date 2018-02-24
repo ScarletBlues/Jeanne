@@ -1,7 +1,7 @@
-var _chalk = require('chalk'),
-    chalk = new _chalk.constructor({
-        enabled: true
-    });
+const _chalk = require('chalk');
+const chalk = new _chalk.constructor({
+    enabled: true
+});
 
 /**
  * @class

@@ -1,4 +1,5 @@
 const {Command} = require('sylphy');
+const utils = require('../../utils/utils');
 const {fillerWords, templates} = require('../../utils/constants');
 
 const insult = () => {
@@ -21,8 +22,8 @@ class Funinsult extends Command {
         });
     }
 
-    async handle({msg, client, rawArgs}, responder) {
-        const member = rawArgs[0] ? client.utils.findMember(msg, rawArgs[0]) : null;
+    async handle({msg, rawArgs}, responder) {
+        const member = rawArgs[0] ? utils.findMember(msg, rawArgs[0]) : null;
         member ? responder.send(`${member.username}, ${insult()}`) : responder.send(insult());
     }
 }
