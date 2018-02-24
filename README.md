@@ -12,6 +12,8 @@
   </p>
 
 # Jeanne
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/Chaldea-devs/Jeanne.svg)](https://greenkeeper.io/)
 This code is the rewrite of Jeanne d'Arc, it is not completed yet and many things are wrong.<br/>
 Note that this code is currently not running on the actualy bot yet because of that!<br/>
 I expect to finish the rewrite by the end of next week which is February 6th
