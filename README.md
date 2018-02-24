@@ -9,11 +9,10 @@
     <a href="https://www.patreon.com/Kurozero"><img src="https://img.shields.io/badge/donate-patreon-F96854.svg" alt="Patreon" /></a>
     <a href="https://david-dm.org/Chaldea-devs/Jeanne"><img src="https://david-dm.org/Chaldea-devs/Jeanne/status.svg" alt="dependencies"/></a>
     <a href="https://choosealicense.com/licenses/gpl-3.0"><img src="https://img.shields.io/github/license/Chaldea-devs/Jeanne.svg" alt="license"/></a>
+    <a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/Chaldea-devs/Jeanne.svg" alt="Greenkeeper badge"/></a>
   </p>
 
 # Jeanne
-
-[![Greenkeeper badge](https://badges.greenkeeper.io/Chaldea-devs/Jeanne.svg)](https://greenkeeper.io/)
 This code is the rewrite of Jeanne d'Arc, it is not completed yet and many things are wrong.<br/>
 Note that this code is currently not running on the actualy bot yet because of that!<br/>
 I expect to finish the rewrite by the end of next week which is February 6th
