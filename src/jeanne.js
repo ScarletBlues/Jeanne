@@ -5,8 +5,10 @@ require('eris-additions')(require('eris'));
 const path = require('path');
 const chalk = require('chalk');
 const winston = require('winston');
+const Sentry = require('winston-sentry');
 const moment = require('moment');
 const JeanneClient = require('./structures/JeanneClient');
+const config = require('../config');
 
 const resolve = (str) => path.join('src', str);
 
@@ -15,13 +17,17 @@ const processShards = parseInt(process.env['SHARDS_PER_PROCESS'], 10);
 const firstShardID = processID * processShards;
 const lastShardID = firstShardID + processShards - 1;
 
-const logger = new (winston.Logger)({
+const logger = new winston.Logger({
     transports: [
-        new (winston.transports.Console)({
+        new winston.transports.Console({
             level: 'silly',
             colorize: true,
             label: processShards > 1 ? `C ${firstShardID}-${lastShardID}` : `C ${processID}`,
             timestamp: () => `[${chalk.grey(moment().format('HH:mm:ss'))}]`
+        }),
+        new Sentry({
+            level: 'warn',
+            dsn: config.sentry.dsn
         })
     ]
 });

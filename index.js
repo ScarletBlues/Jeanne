@@ -15,7 +15,7 @@ require('dotenv-safe').config({
 });
 
 
-const cluster = new Crystal(path.join('src', 'bot.js'), parseInt(process.env.PROCESS_COUNT, 10));
+const cluster = new Crystal(path.join('src', 'jeanne.js'), parseInt(process.env.PROCESS_COUNT, 10));
 const timestamp = () => `[${chalk.grey(moment().format('HH:mm:ss'))}]`;
 
 cluster.on('clusterCreate', (id) => console.log(`${timestamp()} [MASTER]: CLUSTER ${chalk.cyan.bold(id)} ONLINE`));
