@@ -9,6 +9,7 @@
     <a href="https://www.patreon.com/Kurozero"><img src="https://img.shields.io/badge/donate-patreon-F96854.svg" alt="Patreon" /></a>
     <a href="https://david-dm.org/Chaldea-devs/Jeanne"><img src="https://david-dm.org/Chaldea-devs/Jeanne/status.svg" alt="dependencies"/></a>
     <a href="https://choosealicense.com/licenses/gpl-3.0"><img src="https://img.shields.io/github/license/Chaldea-devs/Jeanne.svg" alt="license"/></a>
+    <a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/Chaldea-devs/Jeanne.svg" alt="Greenkeeper badge"/></a>
   </p>
 
 # Jeanne
